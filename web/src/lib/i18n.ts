@@ -15,6 +15,13 @@ const dict = {
       { tag: 'Babadağ', caption: 'Gökyüzünden Ölüdeniz manzarası' },
       { tag: 'Çam Ormanları', caption: 'Akdeniz çamlarıyla çevrili koylar' }
     ],
+    villa_types_title: 'Villa Tiplerine Göre Keşfedin',
+    villa_types: [
+      'Kalabalık Ailelere Uygun', 'Evcil Hayvan İzinli', 'Bungalov Villalar',
+      'Aktiviteli Villalar', 'Lüks Villalar', 'Isıtmalı Havuzlu Villalar',
+      'Ekonomik', 'Balayı', 'Çocuk Havuzlu', 'Deniz Manzaralı',
+      'Muhafazakâr (Korunaklı)', 'Jakuzili'
+    ],
     regions_title: 'Bölgeler',
     featured_title: 'Öne Çıkan Villalar',
     all_villas: 'Tüm Villalar',
@@ -54,6 +61,13 @@ const dict = {
       { tag: 'Blue Lagoon', caption: 'Ölüdeniz\'s iconic turquoise cove' },
       { tag: 'Babadağ', caption: 'The bay, seen from the sky' },
       { tag: 'Pine Forests', caption: 'Coves framed by Mediterranean pine' }
+    ],
+    villa_types_title: 'Explore by Villa Type',
+    villa_types: [
+      'Great for Large Families', 'Pet-Friendly', 'Bungalow Villas',
+      'Villas with Activities', 'Luxury Villas', 'Heated Pool Villas',
+      'Budget-Friendly', 'Honeymoon', 'Kids\' Pool', 'Sea View',
+      'Secluded & Private', 'Jacuzzi'
     ],
     regions_title: 'Regions',
     featured_title: 'Featured Villas',

@@ -5,6 +5,7 @@ import { t, REGION_LABEL, type Locale } from '@/lib/i18n';
 import { fetchActiveVillas, coverUrl, todayNightly } from '@/lib/site-queries';
 import { VillaCard } from '@/components/site/VillaCard';
 import { HeroSlider } from '@/components/site/HeroSlider';
+import { VillaTypes } from '@/components/site/VillaTypes';
 
 export default async function HomePage({ params }: { params: { locale: Locale } }) {
   const d = t(params.locale);
@@ -31,6 +32,8 @@ export default async function HomePage({ params }: { params: { locale: Locale } 
           </Link>
         </div>
       </section>
+
+      <VillaTypes locale={params.locale} title={d.villa_types_title} labels={d.villa_types} />
 
       {/* Regions */}
       <section className="mx-auto max-w-6xl px-4 py-14">
