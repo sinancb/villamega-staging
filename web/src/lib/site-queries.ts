@@ -13,13 +13,17 @@ export async function fetchActiveVillas(region?: string, minCapacity?: number) {
   return data ?? [];
 }
 
+export function placeholderFor(index = 0): string {
+  return `/placeholders/villa-${index % 3}.svg`;
+}
+
 export function coverUrl(villa: any, index = 0): string {
   const photos = [...(villa.villa_photos ?? [])].sort((a, b) => a.sort_order - b.sort_order);
   if (photos.length > 0) {
     const base = process.env.NEXT_PUBLIC_SUPABASE_URL;
     return `${base}/storage/v1/object/public/villas/${photos[0].storage_path}`;
   }
-  return `/placeholders/villa-${index % 3}.svg`;
+  return placeholderFor(index);
 }
 
 export function todayNightly(villa: any): number | null {

@@ -60,7 +60,7 @@ export default async function HomePage({ params }: { params: { locale: Locale } 
         <div className="grid gap-6 md:grid-cols-3">
           {villas.slice(0, 3).map((v: any, i: number) => (
             <VillaCard key={v.id} villa={v} locale={params.locale} d={d}
-              photoUrl={coverUrl(v, i)} todayPrice={todayNightly(v)} />
+              photoUrl={coverUrl(v, i)} photoIndex={i} todayPrice={todayNightly(v)} />
           ))}
         </div>
       </section>

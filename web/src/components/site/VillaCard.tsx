@@ -2,9 +2,11 @@ import Link from 'next/link';
 import { tl } from '@/lib/format';
 import type { Dict, Locale } from '@/lib/i18n';
 import { REGION_LABEL } from '@/lib/i18n';
+import { placeholderFor } from '@/lib/site-queries';
+import { SafeImage } from '@/components/site/SafeImage';
 
-export function VillaCard({ villa, locale, d, photoUrl, todayPrice }: {
-  villa: any; locale: Locale; d: Dict; photoUrl: string; todayPrice: number | null;
+export function VillaCard({ villa, locale, d, photoUrl, photoIndex = 0, todayPrice }: {
+  villa: any; locale: Locale; d: Dict; photoUrl: string; photoIndex?: number; todayPrice: number | null;
 }) {
   const title = villa.villa_translations?.find((t: any) => t.locale === locale)?.title
     ?? villa.villa_translations?.find((t: any) => t.locale === 'tr')?.title
@@ -13,8 +15,7 @@ export function VillaCard({ villa, locale, d, photoUrl, todayPrice }: {
     <Link href={`/${locale}/villalar/${villa.slug}`}
       className="group block overflow-hidden rounded-2xl border border-navy/10 bg-white shadow-sm transition-shadow hover:shadow-lg">
       <div className="relative overflow-hidden rounded-t-arch">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={photoUrl} alt={title}
+        <SafeImage src={photoUrl} fallback={placeholderFor(photoIndex)} alt={title}
           className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-105" />
         <span className="absolute left-3 top-4 rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-navy">
           {REGION_LABEL[locale][villa.region]}
