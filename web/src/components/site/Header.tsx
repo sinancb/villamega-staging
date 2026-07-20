@@ -7,7 +7,8 @@ export function Header({ locale, d, path }: { locale: Locale; d: Dict; path?: st
     <header className="sticky top-0 z-40 border-b border-navy/10 bg-white/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
         <Link href={`/${locale}`} className="flex items-center gap-2">
-          <OmegaMark className="h-7 w-7" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/brand/logo-mark-navy.png" alt="" className="h-8 w-auto" />
           <span className="font-display text-xl font-semibold tracking-[0.18em] text-navy">
             VILLAMEGA
           </span>
