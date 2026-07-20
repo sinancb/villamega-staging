@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#4A7FA5"/><stop offset="0.55" stop-color="#16294D"/><stop offset="1" stop-color="#0B1526"/>
+</linearGradient></defs>
+<rect width="800" height="600" fill="url(#g)"/>
+<circle cx="640" cy="120" r="60" fill="#F4E9CD" opacity="0.9"/>
+<path d="M0 380 Q200 340 400 380 T800 380 V600 H0 Z" fill="#0B1526" opacity="0.5"/>
+<path d="M310 430 v-90 a90 90 0 0 1 180 0 v90 h-36 v-90 a54 54 0 0 0 -108 0 v90 Z" fill="#F7F5F0" opacity="0.92"/>
+<text x="400" y="530" text-anchor="middle" font-family="Georgia,serif" font-size="34" fill="#F7F5F0" opacity="0.85">Villamega</text>
+</svg>
