@@ -69,10 +69,17 @@ out of the repo and out of chat.
 3. Deploy. Then set `NEXT_PUBLIC_SITE_URL` to the real URL and redeploy.
    ✅ Check: the URL shows the Villamega home; `/admin/login` accepts the
    staff user from step 2.
-4. Cron: `web/vercel.json` registers `/api/cron/ical-sync` every 30 min —
-   visible under Project → Settings → Cron Jobs. Note: Vercel cron fires on
-   the **production deployment** of the project, which for a dedicated
-   staging project is exactly this deploy. Trigger one run manually:
+4. Cron — two layers, because Vercel Hobby only allows daily schedules:
+   - `web/vercel.json` registers a **daily 03:00 UTC safety-net** run
+     (Hobby-compatible; visible under Project → Settings → Cron Jobs).
+   - The real **30-minute cadence comes from Supabase**: Dashboard →
+     Database → Extensions → enable `pg_cron` and `pg_net`, then open
+     `supabase/migrations/007_pg_cron_sync.sql`, replace the URL and
+     CRON_SECRET placeholders, and run it in the SQL Editor.
+     ✅ Check: `select * from cron.job;` shows `villamega-ical-sync`;
+     after 30 min `select * from cron.job_run_details order by start_time
+     desc limit 5;` shows a succeeded run.
+   Trigger one run manually right now to verify the endpoint:
    ```bash
    curl -H "Authorization: Bearer YOUR_CRON_SECRET" \
      https://YOUR-STAGING-URL/api/cron/ical-sync
