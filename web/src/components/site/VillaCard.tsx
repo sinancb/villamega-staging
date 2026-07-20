@@ -13,7 +13,7 @@ export function VillaCard({ villa, locale, d, photoUrl, photoIndex = 0, todayPri
     ?? villa.slug;
   return (
     <Link href={`/${locale}/villalar/${villa.slug}`}
-      className="group block overflow-hidden rounded-2xl border border-navy/10 bg-white shadow-sm transition-shadow hover:shadow-lg">
+      className="group block overflow-hidden rounded-2xl border border-navy/10 bg-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-brass/60 hover:shadow-md">
       <div className="relative overflow-hidden rounded-t-arch">
         <SafeImage src={photoUrl} fallback={placeholderFor(photoIndex)} alt={title}
           className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-105" />

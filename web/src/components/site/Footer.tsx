@@ -8,6 +8,7 @@ export function Footer({ d }: { d: Dict }) {
         <img src="/brand/logo-mark-white.png" alt="Villamega" className="h-9 w-auto" />
         <div className="font-display text-lg tracking-[0.2em]">VILLAMEGA</div>
         <p className="max-w-md text-sm">{d.footer_tag}</p>
+        <div className="mt-4 h-px w-10 bg-brass/60" />
         <p className="mt-4 text-xs text-white/50">© {new Date().getFullYear()} Villamega · villamega.com</p>
       </div>
     </footer>

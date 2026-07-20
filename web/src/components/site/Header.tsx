@@ -13,7 +13,7 @@ export function Header({ locale, d, path }: { locale: Locale; d: Dict; path?: st
             VILLAMEGA
           </span>
         </Link>
-        <nav className="hidden items-center gap-7 text-sm font-medium text-navy/80 md:flex">
+        <nav className="hidden items-center gap-8 text-xs font-semibold uppercase tracking-[0.14em] text-navy/75 md:flex">
           <Link className="hover:text-navy" href={`/${locale}/villalar`}>{d.nav_villas}</Link>
           <Link className="hover:text-navy" href={`/${locale}/sayfa/hakkimizda`}>{d.nav_about}</Link>
           <Link className="hover:text-navy" href={`/${locale}/sayfa/kiralama-sartlari`}>{d.nav_terms}</Link>
@@ -24,7 +24,7 @@ export function Header({ locale, d, path }: { locale: Locale; d: Dict; path?: st
             {other.toUpperCase()}
           </Link>
           <a href="https://wa.me/905000000000" target="_blank" rel="noreferrer"
-            className="rounded-full bg-brass px-4 py-2 text-sm font-semibold text-navy hover:brightness-105">
+            className="rounded-full border border-brass px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-navy transition-colors hover:bg-brass">
             {d.nav_contact}
           </a>
         </div>

@@ -10,6 +10,11 @@ const dict = {
     hero_title: 'Akdeniz\'de Hayalinizdeki Villa',
     hero_sub: 'Fethiye, Kaş ve Kalkan\'ın en seçkin korunaklı villalarında unutulmaz bir tatil.',
     hero_cta: 'Villaları Keşfedin',
+    hero_slides: [
+      { tag: 'Mavi Lagün', caption: 'Ölüdeniz\'in eşsiz turkuaz koyu' },
+      { tag: 'Babadağ', caption: 'Gökyüzünden Ölüdeniz manzarası' },
+      { tag: 'Çam Ormanları', caption: 'Akdeniz çamlarıyla çevrili koylar' }
+    ],
     regions_title: 'Bölgeler',
     featured_title: 'Öne Çıkan Villalar',
     all_villas: 'Tüm Villalar',
@@ -45,6 +50,11 @@ const dict = {
     hero_title: 'Your Dream Villa on the Mediterranean',
     hero_sub: 'Unforgettable holidays in the finest secluded villas of Fethiye, Kaş and Kalkan.',
     hero_cta: 'Explore Villas',
+    hero_slides: [
+      { tag: 'Blue Lagoon', caption: 'Ölüdeniz\'s iconic turquoise cove' },
+      { tag: 'Babadağ', caption: 'The bay, seen from the sky' },
+      { tag: 'Pine Forests', caption: 'Coves framed by Mediterranean pine' }
+    ],
     regions_title: 'Regions',
     featured_title: 'Featured Villas',
     all_villas: 'All Villas',
@@ -75,7 +85,7 @@ const dict = {
   }
 };
 
-export type Dict = Record<keyof (typeof dict)['tr'], string>;
+export type Dict = (typeof dict)['tr'];
 export const t = (locale: Locale): Dict => dict[locale] ?? dict.tr;
 
 export const REGION_LABEL: Record<Locale, Record<string, string>> = {

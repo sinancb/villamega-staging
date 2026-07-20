@@ -13,3 +13,9 @@ body { @apply bg-sand text-slate-800 antialiased; }
 .card { @apply rounded-lg border border-slate-200 bg-white shadow-sm; }
 .th { @apply px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500; }
 .td { @apply px-4 py-3 text-sm; }
+
+@keyframes hero-zoom { from { transform: scale(1); } to { transform: scale(1.08); } }
+.animate-hero-zoom { animation: hero-zoom 8s ease-out forwards; }
+
+@keyframes hero-progress { from { width: 0%; } to { width: 100%; } }
+.animate-hero-progress { animation-name: hero-progress; animation-timing-function: linear; animation-fill-mode: forwards; }

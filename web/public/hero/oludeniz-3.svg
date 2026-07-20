@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+<defs>
+  <linearGradient id="sky3" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#C9A55C" stop-opacity="0.35"/>
+    <stop offset="0.4" stop-color="#16294D"/>
+    <stop offset="1" stop-color="#0B1526"/>
+  </linearGradient>
+</defs>
+<rect width="1600" height="900" fill="url(#sky3)"/>
+
+<circle cx="800" cy="430" r="130" fill="#C9A55C" opacity="0.2"/>
+<circle cx="800" cy="430" r="88" fill="#E8C77E" opacity="0.75"/>
+
+<!-- omega watermark -->
+<path d="M1120 760 v-110 h58 v-110 a162 184 0 1 1 324 0 v110 h58 v110 h-146 V520 a103 122 0 1 0 -206 0 v240 Z"
+  fill="none" stroke="#F7F5F0" stroke-width="6" opacity="0.07"/>
+
+<!-- water with light glints -->
+<path d="M0 900 V600 Q400 560 800 600 T1600 600 V900 Z" fill="#14918F" opacity="0.45"/>
+<g stroke="#F0E6D2" stroke-width="3" opacity="0.4">
+  <line x1="300" y1="660" x2="380" y2="660"/>
+  <line x1="700" y1="700" x2="800" y2="700"/>
+  <line x1="1000" y1="650" x2="1090" y2="650"/>
+  <line x1="1250" y1="720" x2="1330" y2="720"/>
+</g>
+
+<!-- left pine cluster -->
+<g fill="#0D2B26">
+  <path d="M-20 900 V520 L60 420 140 520 V900 Z"/>
+  <path d="M60 900 V430 L150 320 240 430 V900 Z"/>
+  <path d="M220 900 V560 L290 470 360 560 V900 Z"/>
+</g>
+<!-- right pine cluster -->
+<g fill="#0D2B26">
+  <path d="M1620 900 V500 L1540 400 1460 500 V900 Z"/>
+  <path d="M1460 900 V420 L1370 310 1280 420 V900 Z"/>
+  <path d="M1300 900 V550 L1230 460 1160 550 V900 Z"/>
+</g>
+</svg>
