@@ -45,6 +45,7 @@ export async function fetchCategories(locale: Locale) {
     .select('id, slug, icon, sort_order, category_translations(locale, label)')
     .order('sort_order', { ascending: true });
   return (data ?? []).map((c: any) => ({
+    id: c.id as string,
     slug: c.slug as string,
     icon: c.icon as string,
     label: c.category_translations?.find((t: any) => t.locale === locale)?.label

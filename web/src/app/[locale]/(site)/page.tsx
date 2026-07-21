@@ -3,16 +3,23 @@ export const revalidate = 300;
 
 import { t, REGION_LABEL, type Locale } from '@/lib/i18n';
 import { fetchActiveVillas, fetchCategories, coverUrl, todayNightly } from '@/lib/site-queries';
+import { iso } from '@/lib/calendar';
 import { VillaCard } from '@/components/site/VillaCard';
 import { HeroSlider } from '@/components/site/HeroSlider';
 import { HeroSearchWidget } from '@/components/site/HeroSearchWidget';
 import { VillaTypes } from '@/components/site/VillaTypes';
+import { BlogTeaser } from '@/components/site/BlogTeaser';
+import { VillaFinder } from '@/components/site/VillaFinder';
 
 export default async function HomePage({ params }: { params: { locale: Locale } }) {
   const d = t(params.locale);
-  const [villas, categories] = await Promise.all([
+  const today = new Date();
+  const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+
+  const [villas, categories, lastMinuteVillas] = await Promise.all([
     fetchActiveVillas(),
-    fetchCategories(params.locale)
+    fetchCategories(params.locale),
+    fetchActiveVillas({ checkin: iso(today), checkout: iso(tomorrow) })
   ]);
 
   return (
@@ -73,6 +80,28 @@ export default async function HomePage({ params }: { params: { locale: Locale } 
           ))}
         </div>
       </section>
+
+      {/* Last-minute deals: villas open for tonight */}
+      <section className="mx-auto max-w-6xl px-4 py-14">
+        <h2 className="font-display text-3xl font-semibold text-navy">{d.lastminute_title}</h2>
+        <div className="mt-3 h-px w-14 bg-brass" />
+        <p className="mb-6 mt-3 text-sm text-navy/60">{d.lastminute_sub}</p>
+        {lastMinuteVillas.length > 0 ? (
+          <div className="grid gap-6 md:grid-cols-3">
+            {lastMinuteVillas.slice(0, 3).map((v: any, i: number) => (
+              <VillaCard key={v.id} villa={v} locale={params.locale} d={d}
+                photoUrl={coverUrl(v, i)} photoIndex={i} todayPrice={todayNightly(v)}
+                ribbon={params.locale === 'tr' ? 'Bugün Müsait' : 'Available Today'} />
+            ))}
+          </div>
+        ) : (
+          <p className="py-10 text-center text-sm text-navy/50">{d.lastminute_empty}</p>
+        )}
+      </section>
+
+      <BlogTeaser locale={params.locale} title={d.blog_title} readMoreLabel={d.blog_read_more} />
+
+      <VillaFinder locale={params.locale} d={d} categories={categories} />
     </>
   );
 }

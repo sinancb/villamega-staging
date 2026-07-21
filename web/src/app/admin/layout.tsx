@@ -4,6 +4,7 @@ import Link from 'next/link';
 
 const NAV = [
   { href: '/admin/talepler', label: 'Rezervasyonlar' },
+  { href: '/admin/villa-talepleri', label: 'Villa Talepleri' },
   { href: '/admin/villalar', label: 'Villalar' },
   { href: '/admin/cakismalar', label: 'Çakışmalar' }
 ];
@@ -30,6 +31,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     .select('id', { count: 'exact', head: true })
     .is('resolved_at', null);
 
+  // villa_requests lands with migration 009 — count stays null (no badge) until then.
+  const { count: newVillaRequests } = await supabase
+    .from('villa_requests')
+    .select('id', { count: 'exact', head: true })
+    .eq('handled', false);
+
   return (
     <div className="flex min-h-screen">
       <aside className="w-56 shrink-0 bg-pine-900 text-white">
@@ -45,6 +52,11 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               {item.href === '/admin/cakismalar' && (openConflicts ?? 0) > 0 && (
                 <span className="rounded-full bg-red-500 px-2 py-0.5 text-xs font-bold text-white">
                   {openConflicts}
+                </span>
+              )}
+              {item.href === '/admin/villa-talepleri' && (newVillaRequests ?? 0) > 0 && (
+                <span className="rounded-full bg-aegean-500 px-2 py-0.5 text-xs font-bold text-white">
+                  {newVillaRequests}
                 </span>
               )}
             </Link>

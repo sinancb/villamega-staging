@@ -5,8 +5,8 @@ import { REGION_LABEL } from '@/lib/i18n';
 import { placeholderFor } from '@/lib/site-queries';
 import { SafeImage } from '@/components/site/SafeImage';
 
-export function VillaCard({ villa, locale, d, photoUrl, photoIndex = 0, todayPrice }: {
-  villa: any; locale: Locale; d: Dict; photoUrl: string; photoIndex?: number; todayPrice: number | null;
+export function VillaCard({ villa, locale, d, photoUrl, photoIndex = 0, todayPrice, ribbon }: {
+  villa: any; locale: Locale; d: Dict; photoUrl: string; photoIndex?: number; todayPrice: number | null; ribbon?: string;
 }) {
   const title = villa.villa_translations?.find((t: any) => t.locale === locale)?.title
     ?? villa.villa_translations?.find((t: any) => t.locale === 'tr')?.title
@@ -20,6 +20,11 @@ export function VillaCard({ villa, locale, d, photoUrl, photoIndex = 0, todayPri
         <span className="absolute left-3 top-4 rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-navy">
           {REGION_LABEL[locale][villa.region]}
         </span>
+        {ribbon && (
+          <span className="absolute right-3 top-4 rounded-full bg-brass px-3 py-1 text-xs font-semibold text-navy">
+            {ribbon}
+          </span>
+        )}
       </div>
       <div className="p-5">
         <h3 className="font-display text-xl font-semibold text-navy">{title}</h3>

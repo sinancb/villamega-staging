@@ -5,7 +5,7 @@ import Link from 'next/link';
 import type { Locale } from '@/lib/i18n';
 import { categoryIcon } from '@/components/site/categoryIcons';
 
-export type VillaTypeItem = { slug: string; icon: string; label: string };
+export type VillaTypeItem = { id: string; slug: string; icon: string; label: string };
 
 export function VillaTypes({ locale, title, categories }: { locale: Locale; title: string; categories: VillaTypeItem[] }) {
   const scrollerRef = useRef<HTMLDivElement>(null);

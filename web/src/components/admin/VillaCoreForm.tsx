@@ -70,6 +70,11 @@ export function VillaCoreForm({ villa, action, submitLabel }: {
           <label className="label" htmlFor="prepayment_pct">Ön ödeme (%)</label>
           <input id="prepayment_pct" name="prepayment_pct" type="number" min={0} max={100} required defaultValue={villa.prepayment_pct ?? 20} className="input" />
         </div>
+        <div>
+          <label className="label" htmlFor="tourism_license_no">Turizm Lisans No</label>
+          <input id="tourism_license_no" name="tourism_license_no" defaultValue={villa.tourism_license_no ?? ''}
+            className="input" placeholder="07-10403" />
+        </div>
       </div>
       {message && (
         <p className={`mt-4 text-sm ${message.ok ? 'text-emerald-700' : 'text-red-600'}`}>{message.text}</p>

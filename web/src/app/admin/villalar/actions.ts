@@ -14,7 +14,8 @@ function villaFields(formData: FormData) {
     cleaning_fee: Number(formData.get('cleaning_fee')),
     deposit_amount: Number(formData.get('deposit_amount')),
     prepayment_pct: Number(formData.get('prepayment_pct')),
-    status: String(formData.get('status'))
+    status: String(formData.get('status')),
+    tourism_license_no: String(formData.get('tourism_license_no') ?? '').trim() || null
   };
 }
 

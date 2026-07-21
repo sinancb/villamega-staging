@@ -8,7 +8,7 @@ export interface Villa {
   id: string; slug: string; region: Region; capacity: number; bedrooms: number;
   bathrooms: number; default_min_stay: number; cleaning_fee: number;
   deposit_amount: number; prepayment_pct: number; status: VillaStatus;
-  owner_id: string | null;
+  owner_id: string | null; tourism_license_no: string | null;
 }
 export interface VillaTranslation {
   villa_id: string; locale: Locale; title: string; description: string;

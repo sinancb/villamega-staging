@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+<defs><linearGradient id="ga" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#2E6E8E"/><stop offset="0.55" stop-color="#16294D"/><stop offset="1" stop-color="#0B1526"/>
+</linearGradient></defs>
+<rect width="800" height="600" fill="url(#ga)"/>
+<circle cx="180" cy="110" r="42" fill="#F0E6D2" opacity="0.85"/>
+
+<g opacity="0.9" stroke="#F7F5F0" stroke-width="2.6" fill="none">
+  <path d="M420 160 q30 -26 60 0" />
+  <line x1="424" y1="162" x2="448" y2="192"/>
+  <line x1="476" y1="162" x2="452" y2="192"/>
+  <circle cx="450" cy="196" r="3" fill="#F7F5F0" stroke="none"/>
+
+  <path d="M560 230 q26 -22 52 0" />
+  <line x1="564" y1="232" x2="585" y2="258"/>
+  <line x1="608" y1="232" x2="587" y2="258"/>
+  <circle cx="586" cy="261" r="2.6" fill="#F7F5F0" stroke="none"/>
+</g>
+
+<path d="M0 420 Q200 360 400 410 T800 400 V600 H0 Z" fill="#0F1C33" opacity="0.6"/>
+<path d="M0 480 Q260 430 560 470 T800 460 V600 H0 Z" fill="#0B1526" opacity="0.85"/>
+<path d="M300 600 V500 Q400 460 500 500 V600 Z" fill="#14918F" opacity="0.45"/>
+</svg>

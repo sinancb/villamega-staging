@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+<defs><linearGradient id="gt" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#C9A55C" stop-opacity="0.3"/><stop offset="0.4" stop-color="#16294D"/><stop offset="1" stop-color="#0B1526"/>
+</linearGradient></defs>
+<rect width="800" height="600" fill="url(#gt)"/>
+<circle cx="400" cy="230" r="70" fill="#C9A55C" opacity="0.18"/>
+<circle cx="400" cy="230" r="46" fill="#E8C77E" opacity="0.75"/>
+
+<path d="M0 480 Q260 430 540 465 T800 450 V600 H0 Z" fill="#0F1C33" opacity="0.6"/>
+
+<!-- villa silhouette -->
+<path d="M180 480 V360 L280 300 380 360 V480 Z" fill="#0D2B26" opacity="0.92"/>
+<rect x="210" y="400" width="30" height="50" fill="#0B1526" opacity="0.7"/>
+<rect x="310" y="400" width="30" height="50" fill="#0B1526" opacity="0.7"/>
+
+<!-- pool -->
+<path d="M400 480 V430 Q470 405 540 430 V480 Z" fill="#14918F" opacity="0.55"/>
+<path d="M400 445 Q470 425 540 445" fill="none" stroke="#F0E6D2" stroke-width="2" opacity="0.4"/>
+</svg>
