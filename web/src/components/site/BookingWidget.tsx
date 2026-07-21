@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { supabaseBrowser } from '@/lib/supabase/client';
 import { t, type Locale } from '@/lib/i18n';
 import { tl } from '@/lib/format';
+import { iso, MONTH_TR, MONTH_EN, DOW_TR, DOW_EN, monthGridDays } from '@/lib/calendar';
 
 type Range = { start_date: string; end_date: string };
 type Quote = {
@@ -10,12 +11,6 @@ type Quote = {
   accommodation_total?: number; cleaning_fee?: number; grand_total?: number;
   prepayment?: number; due_at_checkin?: number; damage_deposit?: number;
 };
-
-const iso = (d: Date) => d.toISOString().slice(0, 10);
-const MONTH_TR = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
-const MONTH_EN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-const DOW_TR = ['Pt','Sa','Ça','Pe','Cu','Ct','Pz'];
-const DOW_EN = ['Mo','Tu','We','Th','Fr','Sa','Su'];
 
 export function BookingWidget({ villaId, locale, depositAmount }: {
   villaId: string; locale: Locale; depositAmount: number;
@@ -90,14 +85,7 @@ export function BookingWidget({ villaId, locale, depositAmount }: {
 
   // Calendar grid for current month
   const monthLabel = (locale === 'tr' ? MONTH_TR : MONTH_EN)[month.getMonth()] + ' ' + month.getFullYear();
-  const days = useMemo(() => {
-    const first = new Date(month);
-    const offset = (first.getDay() + 6) % 7; // Monday-first
-    const count = new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate();
-    const cells: (Date | null)[] = Array(offset).fill(null);
-    for (let i = 1; i <= count; i++) cells.push(new Date(month.getFullYear(), month.getMonth(), i));
-    return cells;
-  }, [month]);
+  const days = useMemo(() => monthGridDays(month), [month]);
 
   const inRange = (dateIso: string) =>
     checkin && checkout && dateIso >= checkin && dateIso < checkout;

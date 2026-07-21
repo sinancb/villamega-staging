@@ -2,14 +2,18 @@ import Link from 'next/link';
 export const revalidate = 300;
 
 import { t, REGION_LABEL, type Locale } from '@/lib/i18n';
-import { fetchActiveVillas, coverUrl, todayNightly } from '@/lib/site-queries';
+import { fetchActiveVillas, fetchCategories, coverUrl, todayNightly } from '@/lib/site-queries';
 import { VillaCard } from '@/components/site/VillaCard';
 import { HeroSlider } from '@/components/site/HeroSlider';
+import { HeroSearchWidget } from '@/components/site/HeroSearchWidget';
 import { VillaTypes } from '@/components/site/VillaTypes';
 
 export default async function HomePage({ params }: { params: { locale: Locale } }) {
   const d = t(params.locale);
-  const villas = await fetchActiveVillas();
+  const [villas, categories] = await Promise.all([
+    fetchActiveVillas(),
+    fetchCategories(params.locale)
+  ]);
 
   return (
     <>
@@ -33,7 +37,9 @@ export default async function HomePage({ params }: { params: { locale: Locale } 
         </div>
       </section>
 
-      <VillaTypes locale={params.locale} title={d.villa_types_title} labels={d.villa_types} />
+      <HeroSearchWidget locale={params.locale} d={d} categories={categories} />
+
+      <VillaTypes locale={params.locale} title={d.villa_types_title} categories={categories} />
 
       {/* Regions */}
       <section className="mx-auto max-w-6xl px-4 py-14">

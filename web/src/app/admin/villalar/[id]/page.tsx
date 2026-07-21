@@ -7,6 +7,7 @@ import { TranslationForm } from '@/components/admin/TranslationForm';
 import { SeasonEditor } from '@/components/admin/SeasonEditor';
 import { PhotoManager } from '@/components/admin/PhotoManager';
 import { FeedManager } from '@/components/admin/FeedManager';
+import { CategoryPicker } from '@/components/admin/CategoryPicker';
 
 export default async function VillaEditPage({ params }: { params: { id: string } }) {
   const supabase = supabaseServer();
@@ -17,6 +18,22 @@ export default async function VillaEditPage({ params }: { params: { id: string }
     .single();
 
   if (!villa) notFound();
+
+  // Categories land with migration 008 — until it's applied these queries
+  // fail gracefully and the section below just shows no options.
+  const { data: allCategories } = await supabase
+    .from('categories')
+    .select('id, sort_order, category_translations(locale, label)')
+    .order('sort_order', { ascending: true });
+  const { data: villaCategories } = await supabase
+    .from('villa_categories')
+    .select('category_id')
+    .eq('villa_id', params.id);
+  const categoryOptions = (allCategories ?? []).map((c: any) => ({
+    id: c.id as string,
+    label: c.category_translations?.find((t: any) => t.locale === 'tr')?.label ?? c.id
+  }));
+  const selectedCategoryIds = (villaCategories ?? []).map((vc: any) => vc.category_id as string);
 
   const tr = villa.villa_translations?.find((t: any) => t.locale === 'tr');
   const en = villa.villa_translations?.find((t: any) => t.locale === 'en');
@@ -50,6 +67,13 @@ export default async function VillaEditPage({ params }: { params: { id: string }
           </div>
         </div>
       </section>
+
+      {categoryOptions.length > 0 && (
+        <section className="card p-5">
+          <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-500">Villa Tipleri</h2>
+          <CategoryPicker villaId={villa.id} allCategories={categoryOptions} selectedIds={selectedCategoryIds} />
+        </section>
+      )}
 
       <section className="card p-5">
         <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-500">Fotoğraflar</h2>

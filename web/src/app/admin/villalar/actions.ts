@@ -115,6 +115,19 @@ export async function deletePhoto(formData: FormData) {
   return { ok: true as const };
 }
 
+export async function saveCategories(villaId: string, categoryIds: string[]) {
+  const supabase = supabaseServer();
+  const del = await supabase.from('villa_categories').delete().eq('villa_id', villaId);
+  if (del.error) return { ok: false as const, error: del.error.message };
+  if (categoryIds.length > 0) {
+    const { error } = await supabase.from('villa_categories')
+      .insert(categoryIds.map((category_id) => ({ villa_id: villaId, category_id })));
+    if (error) return { ok: false as const, error: error.message };
+  }
+  revalidatePath(`/admin/villalar/${villaId}`);
+  return { ok: true as const };
+}
+
 export async function saveFeed(formData: FormData) {
   const supabase = supabaseServer();
   const { error } = await supabase.from('ical_feeds').insert({

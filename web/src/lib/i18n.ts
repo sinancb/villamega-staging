@@ -16,12 +16,10 @@ const dict = {
       { tag: 'Çam Ormanları', caption: 'Akdeniz çamlarıyla çevrili koylar' }
     ],
     villa_types_title: 'Villa Tiplerine Göre Keşfedin',
-    villa_types: [
-      'Kalabalık Ailelere Uygun', 'Evcil Hayvan İzinli', 'Bungalov Villalar',
-      'Aktiviteli Villalar', 'Lüks Villalar', 'Isıtmalı Havuzlu Villalar',
-      'Ekonomik', 'Balayı', 'Çocuk Havuzlu', 'Deniz Manzaralı',
-      'Muhafazakâr (Korunaklı)', 'Jakuzili'
-    ],
+    search_region: 'Bölge', search_villa_type: 'Villa Tipi',
+    search_dates: 'Giriş - Çıkış Tarihi', search_guests: 'Misafir',
+    search_select: 'Seçiniz', search_any_type: 'Tüm Tipler',
+    search_pick_dates: 'Tarih seçin', search_button: 'Ara', search_guest_count: 'Misafir Sayısı',
     regions_title: 'Bölgeler',
     featured_title: 'Öne Çıkan Villalar',
     all_villas: 'Tüm Villalar',
@@ -63,12 +61,10 @@ const dict = {
       { tag: 'Pine Forests', caption: 'Coves framed by Mediterranean pine' }
     ],
     villa_types_title: 'Explore by Villa Type',
-    villa_types: [
-      'Great for Large Families', 'Pet-Friendly', 'Bungalow Villas',
-      'Villas with Activities', 'Luxury Villas', 'Heated Pool Villas',
-      'Budget-Friendly', 'Honeymoon', 'Kids\' Pool', 'Sea View',
-      'Secluded & Private', 'Jacuzzi'
-    ],
+    search_region: 'Region', search_villa_type: 'Villa Type',
+    search_dates: 'Check-in - Check-out', search_guests: 'Guests',
+    search_select: 'Select', search_any_type: 'All Types',
+    search_pick_dates: 'Pick dates', search_button: 'Search', search_guest_count: 'Guest Count',
     regions_title: 'Regions',
     featured_title: 'Featured Villas',
     all_villas: 'All Villas',
