@@ -2,9 +2,9 @@ import { supabaseServer } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 import { t, REGION_LABEL, type Locale } from '@/lib/i18n';
 import { tl, trDate } from '@/lib/format';
-import { coverUrl, placeholderFor } from '@/lib/site-queries';
+import { coverUrl } from '@/lib/site-queries';
 import { BookingWidget } from '@/components/site/BookingWidget';
-import { SafeImage } from '@/components/site/SafeImage';
+import { PhotoGallery } from '@/components/site/PhotoGallery';
 import type { Metadata } from 'next';
 
 async function getVilla(slug: string) {
@@ -60,16 +60,8 @@ export default async function VillaDetailPage({ params }: {
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
       {/* Gallery: arch-framed cover + strip */}
-      <div className="grid gap-3 md:grid-cols-3">
-        <SafeImage src={galleryUrls[0]} fallback={placeholderFor(0)} alt={trn?.title ?? villa.slug}
-          className="col-span-2 aspect-[3/2] w-full rounded-t-arch rounded-b-2xl object-cover" />
-        <div className="grid gap-3">
-          {galleryUrls.slice(1, 3).map((url: string, i: number) => (
-            <SafeImage key={i} src={url} fallback={placeholderFor(i + 1)} alt=""
-              className="aspect-[3/2] w-full rounded-2xl object-cover" />
-          ))}
-        </div>
-      </div>
+      <PhotoGallery photos={galleryUrls} alt={trn?.title ?? villa.slug}
+        morePhotosLabel={d.gallery_more_photos} closeLabel={d.gallery_close} />
 
       <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_400px]">
         <div>
