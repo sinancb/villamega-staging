@@ -2,9 +2,12 @@
 import { useRef, useState, useTransition } from 'react';
 import { supabaseBrowser } from '@/lib/supabase/client';
 import { registerPhoto, savePhotoOrder, deletePhoto } from '@/app/admin/villalar/actions';
+import { compressImage } from '@/lib/image-compress';
 import type { VillaPhoto } from '@/lib/types';
 
-const MAX_MB = 8;
+// Raw input sanity cap — actual stored size is tiny after compression,
+// this just guards against pathological uploads.
+const MAX_SOURCE_MB = 40;
 const ACCEPTED = ['image/jpeg', 'image/png', 'image/webp'];
 
 export function PhotoManager({ villaId, slug, photos }: {
@@ -31,14 +34,23 @@ export function PhotoManager({ villaId, slug, photos }: {
         setMessage({ ok: false, text: `${file.name}: desteklenmeyen dosya türü.` });
         continue;
       }
-      if (file.size > MAX_MB * 1024 * 1024) {
-        setMessage({ ok: false, text: `${file.name}: dosya ${MAX_MB} MB sınırını aşıyor.` });
+      if (file.size > MAX_SOURCE_MB * 1024 * 1024) {
+        setMessage({ ok: false, text: `${file.name}: dosya ${MAX_SOURCE_MB} MB sınırını aşıyor.` });
         continue;
       }
-      const ext = file.name.split('.').pop()?.toLowerCase() ?? 'jpg';
+
+      let blob: Blob; let ext: string;
+      try {
+        const compressed = await compressImage(file);
+        blob = compressed.blob; ext = compressed.ext;
+      } catch {
+        setMessage({ ok: false, text: `${file.name}: optimize edilemedi, orijinal dosya yükleniyor.` });
+        blob = file; ext = file.name.split('.').pop()?.toLowerCase() ?? 'jpg';
+      }
+
       const path = `villas/${slug}/${crypto.randomUUID()}.${ext}`;
-      const { error } = await supabase.storage.from('villas').upload(path, file, {
-        cacheControl: '31536000', upsert: false
+      const { error } = await supabase.storage.from('villas').upload(path, blob, {
+        cacheControl: '31536000', upsert: false, contentType: blob.type || undefined
       });
       if (error) {
         setMessage({ ok: false, text: `${file.name}: yüklenemedi (${error.message}).` });
@@ -154,10 +166,11 @@ export function PhotoManager({ villaId, slug, photos }: {
         ].join(' ')}
       >
         <span className="text-sm font-medium text-pine-900">
-          {uploading ? 'Yükleniyor…' : 'Fotoğrafları buraya sürükleyin veya tıklayıp seçin'}
+          {uploading ? 'Optimize ediliyor ve yükleniyor…' : 'Fotoğrafları buraya sürükleyin veya tıklayıp seçin'}
         </span>
         <span className="mt-1 text-xs text-slate-500">
-          JPEG, PNG veya WebP · en fazla {MAX_MB} MB · ilk fotoğraf sitede kapak olarak kullanılır.
+          JPEG, PNG veya WebP · dosya boyutu ne olursa olsun otomatik optimize edilir ·
+          ilk fotoğraf sitede kapak olarak kullanılır.
         </span>
         <input type="file" accept="image/jpeg,image/png,image/webp" multiple hidden
           onChange={handleInputChange} disabled={uploading} />
