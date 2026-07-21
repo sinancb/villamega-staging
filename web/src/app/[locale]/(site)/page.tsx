@@ -30,14 +30,11 @@ export default async function HomePage({ params }: { params: { locale: Locale } 
             {d.hero_title}
           </h1>
           <p className="mt-5 max-w-xl text-base text-white/85 [text-shadow:0_1px_10px_rgba(11,21,38,0.4)]">{d.hero_sub}</p>
-          <Link href={`/${params.locale}/villalar`}
-            className="mt-8 rounded-full border border-brass bg-brass px-8 py-3 text-xs font-semibold uppercase tracking-[0.15em] text-navy transition-colors hover:bg-transparent hover:text-white">
-            {d.hero_cta}
-          </Link>
+          <div className="mt-8 w-full px-4">
+            <HeroSearchWidget locale={params.locale} d={d} categories={categories} />
+          </div>
         </div>
       </section>
-
-      <HeroSearchWidget locale={params.locale} d={d} categories={categories} />
 
       <VillaTypes locale={params.locale} title={d.villa_types_title} categories={categories} />
 

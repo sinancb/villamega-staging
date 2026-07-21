@@ -61,7 +61,7 @@ export function HeroSearchWidget({ locale, d, categories }: { locale: Locale; d:
   const inRange = (dateIso: string) => checkin && checkout && dateIso >= checkin && dateIso < checkout;
 
   return (
-    <div className="relative z-20 mx-auto -mt-14 max-w-5xl px-4 md:-mt-16">
+    <div className="relative z-10 mx-auto w-full max-w-5xl">
       <div className="grid grid-cols-1 divide-y divide-navy/10 rounded-2xl border border-navy/10 bg-white shadow-xl md:grid-cols-[1fr_1fr_1.3fr_1fr_auto] md:divide-x md:divide-y-0">
         <div className="px-5 py-4">
           <label className="block text-[11px] font-semibold uppercase tracking-wide text-navy/50">{d.search_region}</label>
