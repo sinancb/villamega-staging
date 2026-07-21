@@ -8,6 +8,7 @@ import { SeasonEditor } from '@/components/admin/SeasonEditor';
 import { PhotoManager } from '@/components/admin/PhotoManager';
 import { FeedManager } from '@/components/admin/FeedManager';
 import { CategoryPicker } from '@/components/admin/CategoryPicker';
+import { Tabs } from '@/components/admin/Tabs';
 
 export default async function VillaEditPage({ params }: { params: { id: string } }) {
   const supabase = supabaseServer();
@@ -43,53 +44,76 @@ export default async function VillaEditPage({ params }: { params: { id: string }
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://siteniz.com';
 
   return (
-    <div className="max-w-4xl space-y-8">
+    <div className="max-w-5xl space-y-6">
       <div>
         <Link href="/admin/villalar" className="text-sm text-aegean-600 hover:underline">← Villalar</Link>
         <h1 className="mt-2 text-2xl font-semibold text-pine-900">{tr?.title ?? villa.slug}</h1>
       </div>
 
-      <section>
-        <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-500">Temel bilgiler</h2>
-        <VillaCoreForm villa={villa} action={updateVilla} submitLabel="Kaydet" />
-      </section>
+      <Tabs tabs={[
+        {
+          key: 'tanim',
+          label: 'Tanım',
+          content: (
+            <div className="space-y-8">
+              <section>
+                <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-500">Temel bilgiler</h2>
+                <VillaCoreForm villa={villa} action={updateVilla} submitLabel="Kaydet" />
+              </section>
 
-      <section className="card p-5">
-        <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-500">İçerik</h2>
-        <div className="grid gap-8 md:grid-cols-2">
-          <div>
-            <h3 className="mb-3 text-sm font-semibold text-pine-900">Türkçe</h3>
-            <TranslationForm villaId={villa.id} locale="tr" translation={tr} />
-          </div>
-          <div>
-            <h3 className="mb-3 text-sm font-semibold text-pine-900">English</h3>
-            <TranslationForm villaId={villa.id} locale="en" translation={en} />
-          </div>
-        </div>
-      </section>
+              <section className="card p-5">
+                <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-500">İçerik</h2>
+                <div className="grid gap-8 md:grid-cols-2">
+                  <div>
+                    <h3 className="mb-3 text-sm font-semibold text-pine-900">Türkçe</h3>
+                    <TranslationForm villaId={villa.id} locale="tr" translation={tr} />
+                  </div>
+                  <div>
+                    <h3 className="mb-3 text-sm font-semibold text-pine-900">English</h3>
+                    <TranslationForm villaId={villa.id} locale="en" translation={en} />
+                  </div>
+                </div>
+              </section>
 
-      {categoryOptions.length > 0 && (
-        <section className="card p-5">
-          <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-500">Villa Tipleri</h2>
-          <CategoryPicker villaId={villa.id} allCategories={categoryOptions} selectedIds={selectedCategoryIds} />
-        </section>
-      )}
-
-      <section className="card p-5">
-        <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-500">Fotoğraflar</h2>
-        <PhotoManager villaId={villa.id} slug={villa.slug} photos={photos} />
-      </section>
-
-      <section className="card p-5">
-        <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-500">Sezon fiyatları</h2>
-        <SeasonEditor villaId={villa.id} seasons={seasons} />
-      </section>
-
-      <section className="card p-5">
-        <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-500">Takvim eşitleme (iCal)</h2>
-        <FeedManager villaId={villa.id} feeds={villa.ical_feeds ?? []}
-          exportUrl={`${siteUrl}/api/ical/${villa.slug}.ics`} />
-      </section>
+              {categoryOptions.length > 0 && (
+                <section className="card p-5">
+                  <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-500">Villa Tipleri</h2>
+                  <CategoryPicker villaId={villa.id} allCategories={categoryOptions} selectedIds={selectedCategoryIds} />
+                </section>
+              )}
+            </div>
+          )
+        },
+        {
+          key: 'resimler',
+          label: 'Resimler',
+          badge: photos.length,
+          content: (
+            <section className="card p-5">
+              <PhotoManager villaId={villa.id} slug={villa.slug} photos={photos} />
+            </section>
+          )
+        },
+        {
+          key: 'fiyatlandirma',
+          label: 'Fiyatlandırma',
+          content: (
+            <section className="card p-5">
+              <SeasonEditor villaId={villa.id} seasons={seasons} />
+            </section>
+          )
+        },
+        {
+          key: 'ical',
+          label: 'iCal',
+          content: (
+            <section className="card p-5">
+              <FeedManager villaId={villa.id} feeds={villa.ical_feeds ?? []}
+                exportUrl={`${siteUrl}/api/ical/${villa.slug}.ics`} />
+            </section>
+          )
+        }
+      ]} />
     </div>
   );
 }
