@@ -17,6 +17,7 @@ export function Header({ locale, d, path }: { locale: Locale; d: Dict; path?: st
           <Link className="hover:text-navy" href={`/${locale}/villalar`}>{d.nav_villas}</Link>
           <Link className="hover:text-navy" href={`/${locale}/sayfa/hakkimizda`}>{d.nav_about}</Link>
           <Link className="hover:text-navy" href={`/${locale}/sayfa/kiralama-sartlari`}>{d.nav_terms}</Link>
+          <Link className="hover:text-navy" href={`/${locale}/villanizi-kiralayin`}>{d.nav_owner}</Link>
         </nav>
         <div className="flex items-center gap-3">
           <Link href={`/${other}`}

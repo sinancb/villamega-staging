@@ -2,7 +2,7 @@ import Link from 'next/link';
 export const revalidate = 300;
 
 import { t, REGION_LABEL, type Locale } from '@/lib/i18n';
-import { fetchActiveVillas, fetchCategories, coverUrl, todayNightly } from '@/lib/site-queries';
+import { fetchActiveVillas, fetchCategories, fetchShortStayAvailability, coverUrl, todayNightly } from '@/lib/site-queries';
 import { iso } from '@/lib/calendar';
 import { VillaCard } from '@/components/site/VillaCard';
 import { HeroSlider } from '@/components/site/HeroSlider';
@@ -10,16 +10,18 @@ import { HeroSearchWidget } from '@/components/site/HeroSearchWidget';
 import { VillaTypes } from '@/components/site/VillaTypes';
 import { BlogTeaser } from '@/components/site/BlogTeaser';
 import { VillaFinder } from '@/components/site/VillaFinder';
+import { ShortStayAvailability } from '@/components/site/ShortStayAvailability';
 
 export default async function HomePage({ params }: { params: { locale: Locale } }) {
   const d = t(params.locale);
   const today = new Date();
   const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
 
-  const [villas, categories, lastMinuteVillas] = await Promise.all([
+  const [villas, categories, lastMinuteVillas, shortStayMonths] = await Promise.all([
     fetchActiveVillas(),
     fetchCategories(params.locale),
-    fetchActiveVillas({ checkin: iso(today), checkout: iso(tomorrow) })
+    fetchActiveVillas({ checkin: iso(today), checkout: iso(tomorrow) }),
+    fetchShortStayAvailability()
   ]);
 
   return (
@@ -98,6 +100,9 @@ export default async function HomePage({ params }: { params: { locale: Locale } 
           <p className="py-10 text-center text-sm text-navy/50">{d.lastminute_empty}</p>
         )}
       </section>
+
+      <ShortStayAvailability locale={params.locale} title={d.shortstay_title} sub={d.shortstay_sub}
+        nightsLabel={d.shortstay_nights} countSuffix={d.shortstay_count_suffix} months={shortStayMonths} />
 
       <BlogTeaser locale={params.locale} title={d.blog_title} readMoreLabel={d.blog_read_more} />
 

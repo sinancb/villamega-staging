@@ -1,5 +1,6 @@
 import { supabaseServer } from '@/lib/supabase/server';
 import type { Locale } from '@/lib/i18n';
+import { iso } from '@/lib/calendar';
 
 export { placeholderFor, coverUrl, todayNightly } from '@/lib/villa-display';
 
@@ -52,5 +53,66 @@ export async function fetchCategories(locale: Locale) {
       ?? c.category_translations?.find((t: any) => t.locale === 'tr')?.label
       ?? c.slug
   }));
+}
+
+export type ShortStayMonth = { month: Date; counts: { nights: number; count: number }[] };
+
+// For each of the next `monthsAhead` months, how many active villas have an
+// open window of each length in `nightOptions` starting within that month.
+// Real availability, computed from get_unavailable_ranges() per villa —
+// cheap at our current villa count, no new RPC needed.
+export async function fetchShortStayAvailability(
+  monthsAhead = 4,
+  nightOptions = [2, 3, 4, 5, 6]
+): Promise<ShortStayMonth[]> {
+  const supabase = supabaseServer();
+  const { data: villas } = await supabase
+    .from('villas').select('id, default_min_stay').eq('status', 'active');
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const villaBlocked = await Promise.all((villas ?? []).map(async (v: any) => {
+    const { data: ranges } = await supabase.rpc('get_unavailable_ranges', { p_villa_id: v.id });
+    const blocked = new Set<string>();
+    for (const r of (ranges ?? []) as { start_date: string; end_date: string }[]) {
+      let d = new Date(r.start_date + 'T00:00:00');
+      const end = new Date(r.end_date + 'T00:00:00');
+      while (d < end) {
+        blocked.add(iso(d));
+        d = new Date(d.getTime() + 86400000);
+      }
+    }
+    return { minStay: v.default_min_stay as number, blocked };
+  }));
+
+  const months: ShortStayMonth[] = [];
+  for (let i = 0; i < monthsAhead; i++) {
+    const monthDate = new Date(today.getFullYear(), today.getMonth() + i, 1);
+    const daysInMonth = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0).getDate();
+
+    const counts = nightOptions.map((nights) => {
+      let count = 0;
+      for (const v of villaBlocked) {
+        if (nights < v.minStay) continue;
+        let hasWindow = false;
+        for (let day = 1; day <= daysInMonth && !hasWindow; day++) {
+          const start = new Date(monthDate.getFullYear(), monthDate.getMonth(), day);
+          if (start < today) continue;
+          let free = true;
+          for (let n = 0; n < nights; n++) {
+            const check = new Date(start.getTime() + n * 86400000);
+            if (v.blocked.has(iso(check))) { free = false; break; }
+          }
+          if (free) hasWindow = true;
+        }
+        if (hasWindow) count++;
+      }
+      return { nights, count };
+    });
+
+    months.push({ month: monthDate, counts });
+  }
+  return months;
 }
 
