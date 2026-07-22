@@ -10,9 +10,19 @@ export type VillaSearch = {
   minCapacity?: number;
   checkin?: string;
   checkout?: string;
+  nameQuery?: string;
 };
 
 const VILLA_SELECT = '*, villa_translations(*), villa_photos(storage_path, sort_order), price_seasons(start_date, end_date, nightly_price)';
+
+function filterByName(villas: any[], nameQuery?: string) {
+  if (!nameQuery) return villas;
+  const q = nameQuery.trim().toLocaleLowerCase('tr');
+  if (!q) return villas;
+  return villas.filter((v: any) =>
+    (v.villa_translations ?? []).some((t: any) => (t.title ?? '').toLocaleLowerCase('tr').includes(q))
+  );
+}
 
 export async function fetchActiveVillas(search: VillaSearch = {}) {
   const supabase = supabaseServer();
@@ -34,9 +44,9 @@ export async function fetchActiveVillas(search: VillaSearch = {}) {
     if (search.region) query = query.eq('region', search.region);
     if (search.minCapacity) query = query.gte('capacity', search.minCapacity);
     const fallback = await query;
-    return fallback.data ?? [];
+    return filterByName(fallback.data ?? [], search.nameQuery);
   }
-  return data ?? [];
+  return filterByName(data ?? [], search.nameQuery);
 }
 
 export async function fetchCategories(locale: Locale) {

@@ -6,6 +6,8 @@ const dict = {
   tr: {
     nav_villas: 'Villalarımız', nav_about: 'Hakkımızda', nav_terms: 'Kiralama Şartları',
     nav_owner: 'Villanızı Kiralayın', nav_menu: 'Menü',
+    lang_tr: 'Türkçe', lang_en: 'İngilizce',
+    search_by_name: 'Villa adıyla arayın', login_signup: 'Giriş Yap / Üye Ol',
     nav_contact: 'İletişim',
     hero_eyebrow: 'Fethiye · Kaş · Kalkan',
     hero_title: 'Akdeniz\'de Hayalinizdeki Villa',
@@ -78,6 +80,8 @@ const dict = {
   en: {
     nav_villas: 'Our Villas', nav_about: 'About Us', nav_terms: 'Rental Terms',
     nav_owner: 'List Your Villa', nav_menu: 'Menu',
+    lang_tr: 'Turkish', lang_en: 'English',
+    search_by_name: 'Search by villa name', login_signup: 'Login / Sign Up',
     nav_contact: 'Contact',
     hero_eyebrow: 'Fethiye · Kaş · Kalkan',
     hero_title: 'Your Dream Villa on the Mediterranean',

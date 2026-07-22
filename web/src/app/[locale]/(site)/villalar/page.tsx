@@ -9,7 +9,7 @@ import Link from 'next/link';
 
 export default async function VillasPage({ params, searchParams }: {
   params: { locale: Locale };
-  searchParams: { bolge?: string; kisi?: string; tip?: string; giris?: string; cikis?: string };
+  searchParams: { bolge?: string; kisi?: string; tip?: string; giris?: string; cikis?: string; ara?: string };
 }) {
   const d = t(params.locale);
   const region = ['fethiye', 'kas', 'kalkan'].includes(searchParams.bolge ?? '')
@@ -18,24 +18,27 @@ export default async function VillasPage({ params, searchParams }: {
   const categorySlug = searchParams.tip || undefined;
   const checkin = searchParams.giris || undefined;
   const checkout = searchParams.cikis || undefined;
+  const nameQuery = searchParams.ara || undefined;
   const currency = getCurrencyFromCookies(params.locale);
 
   const [villas, categories, eurRate] = await Promise.all([
-    fetchActiveVillas({ region, categorySlug, minCapacity, checkin, checkout }),
+    fetchActiveVillas({ region, categorySlug, minCapacity, checkin, checkout, nameQuery }),
     fetchCategories(params.locale),
     currency === 'EUR' ? getEurRate() : Promise.resolve(1)
   ]);
   const activeCategory = categories.find((c) => c.slug === categorySlug);
 
-  const filterHref = (overrides: { bolge?: string | null; tip?: string | null }) => {
+  const filterHref = (overrides: { bolge?: string | null; tip?: string | null; ara?: string | null }) => {
     const qs = new URLSearchParams();
     const nextBolge = overrides.bolge !== undefined ? overrides.bolge : region;
     const nextTip = overrides.tip !== undefined ? overrides.tip : categorySlug;
+    const nextAra = overrides.ara !== undefined ? overrides.ara : nameQuery;
     if (nextBolge) qs.set('bolge', nextBolge);
     if (nextTip) qs.set('tip', nextTip);
     if (searchParams.kisi) qs.set('kisi', searchParams.kisi);
     if (checkin) qs.set('giris', checkin);
     if (checkout) qs.set('cikis', checkout);
+    if (nextAra) qs.set('ara', nextAra);
     const s = qs.toString();
     return `/${params.locale}/villalar${s ? `?${s}` : ''}`;
   };
@@ -57,8 +60,14 @@ export default async function VillasPage({ params, searchParams }: {
         ))}
       </div>
 
-      {(activeCategory || (checkin && checkout)) && (
+      {(activeCategory || (checkin && checkout) || nameQuery) && (
         <div className="mb-8 flex flex-wrap items-center gap-2 text-sm">
+          {nameQuery && (
+            <span className="flex items-center gap-2 rounded-full border border-brass bg-brass-soft/40 px-3 py-1 text-navy">
+              "{nameQuery}"
+              <Link href={filterHref({ ara: null })} aria-label="Aramayı kaldır" className="text-navy/50 hover:text-navy">×</Link>
+            </span>
+          )}
           {activeCategory && (
             <span className="flex items-center gap-2 rounded-full border border-brass bg-brass-soft/40 px-3 py-1 text-navy">
               {activeCategory.label}
