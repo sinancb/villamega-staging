@@ -19,7 +19,7 @@ export default function OwnerLeadPage({ params }: { params: { locale: Locale } }
         </div>
       </section>
 
-      <div className="relative z-20 mx-auto -mt-10 max-w-lg px-4 pb-16 md:-mt-12">
+      <div className="relative z-20 mx-auto -mt-28 max-w-lg px-4 pb-16 md:-mt-32">
         <div className="rounded-2xl border border-navy/10 bg-white p-8 shadow-2xl">
           <h2 className="font-display text-xl font-semibold text-navy">{d.owner_form_title}</h2>
           <p className="mt-2 text-sm text-navy/60">{d.owner_form_sub}</p>
