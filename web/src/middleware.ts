@@ -34,4 +34,9 @@ export async function middleware(request: NextRequest) {
   return response;
 }
 
-export const config = { matcher: ['/admin/:path*'] };
+export const config = {
+  matcher: [
+    '/admin/:path*',
+    '/((?!_next/static|_next/image|favicon.ico|brand|hero|placeholders|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)'
+  ]
+};

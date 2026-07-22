@@ -6,7 +6,7 @@ import { LanguageDropdown } from '@/components/site/LanguageDropdown';
 import { VillaSearchBar } from '@/components/site/VillaSearchBar';
 import { StickyHeaderBar } from '@/components/site/StickyHeaderBar';
 
-export function Header({ locale, d, currency, path }: { locale: Locale; d: Dict; currency: CurrencyCode; path?: string }) {
+export function Header({ locale, d, currency, path, isLoggedIn }: { locale: Locale; d: Dict; currency: CurrencyCode; path?: string; isLoggedIn?: boolean }) {
   return (
     <>
       {/* Row 1: utility bar — left cluster (contact/owner/contact-us), middle search (desktop), right cluster (currency/language) */}
@@ -49,10 +49,11 @@ export function Header({ locale, d, currency, path }: { locale: Locale; d: Dict;
             </span>
           </Link>
 
-          <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-white/70 md:gap-2 md:text-sm">
+          <Link href={`/${locale}/${isLoggedIn ? 'hesabim' : 'giris'}`}
+            className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-white/70 hover:text-white md:gap-2 md:text-sm">
             <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 md:h-5 md:w-5" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="8" r="3.5" /><path d="M4.5 20c1.5-4 4.5-6 7.5-6s6 2 7.5 6" /></svg>
-            <span className="whitespace-nowrap">{d.login_signup}</span>
-          </div>
+            <span className="whitespace-nowrap">{isLoggedIn ? d.my_account : d.login_signup}</span>
+          </Link>
         </div>
       </StickyHeaderBar>
     </>

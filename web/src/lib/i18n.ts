@@ -75,7 +75,21 @@ const dict = {
     err_invalid_email: 'Lütfen geçerli bir e-posta adresi girin.',
     err_generic: 'Bir sorun oluştu. Lütfen tekrar deneyin veya bizi arayın.',
     footer_tag: 'Fethiye, Kaş ve Kalkan\'da seçkin villa kiralama.',
-    legend_available: 'Müsait', legend_blocked: 'Dolu'
+    legend_available: 'Müsait', legend_blocked: 'Dolu',
+    my_account: 'Bilgilerim',
+    login_title: 'Giriş Yapın', login_sub: 'Kayıtlı e-postanız ile oturum açın.',
+    login_email_label: 'E-posta', login_continue: 'Devam Et',
+    login_otp_sent: 'E-postanıza 6 haneli bir kod gönderdik.',
+    login_otp_label: 'Doğrulama Kodu', login_verify: 'Doğrula',
+    login_resend: 'Kodu Tekrar Gönder', login_back: 'Geri',
+    login_new_account_note: 'Hesabınız yoksa girdiğiniz e-posta ile otomatik oluşturulur.',
+    login_hero_line: 'Villamega güvencesiyle Fethiye, Kaş ve Kalkan\'da özenle seçilmiş villalarda tatil yapın.',
+    err_otp_invalid: 'Kod hatalı veya süresi dolmuş. Lütfen tekrar deneyin.',
+    account_reservations_title: 'Rezervasyonlarım', account_requests_title: 'Taleplerim',
+    account_empty: 'Henüz bir talep göndermediniz.', account_logout: 'Çıkış Yap',
+    status_yeni: 'Talebiniz Alındı', status_iletisimde: 'Görüşme Sürüyor',
+    status_onaylandi: 'Onaylandı', status_iptal: 'İptal Edildi', status_tamamlandi: 'Tamamlandı',
+    request_pending: 'Değerlendiriliyor', request_handled: 'Sizinle İletişime Geçildi'
   },
   en: {
     nav_villas: 'Our Villas', nav_about: 'About Us', nav_terms: 'Rental Terms',
@@ -149,7 +163,21 @@ const dict = {
     err_invalid_email: 'Please enter a valid email address.',
     err_generic: 'Something went wrong. Please try again or call us.',
     footer_tag: 'Curated villa rentals in Fethiye, Kaş and Kalkan.',
-    legend_available: 'Available', legend_blocked: 'Booked'
+    legend_available: 'Available', legend_blocked: 'Booked',
+    my_account: 'My Account',
+    login_title: 'Log In', login_sub: 'Sign in with your registered email.',
+    login_email_label: 'Email', login_continue: 'Continue',
+    login_otp_sent: 'We sent a 6-digit code to your email.',
+    login_otp_label: 'Verification Code', login_verify: 'Verify',
+    login_resend: 'Resend Code', login_back: 'Back',
+    login_new_account_note: "If you don't have an account yet, one is created automatically with the email you enter.",
+    login_hero_line: 'Holiday in carefully selected villas across Fethiye, Kaş and Kalkan, backed by Villamega.',
+    err_otp_invalid: 'That code is wrong or has expired. Please try again.',
+    account_reservations_title: 'My Reservations', account_requests_title: 'My Requests',
+    account_empty: "You haven't sent any requests yet.", account_logout: 'Log Out',
+    status_yeni: 'Request Received', status_iletisimde: 'In Contact',
+    status_onaylandi: 'Confirmed', status_iptal: 'Cancelled', status_tamamlandi: 'Completed',
+    request_pending: 'Under Review', request_handled: "We've Contacted You"
   }
 };
 
