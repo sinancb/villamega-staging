@@ -25,7 +25,7 @@ export function LanguageDropdown({ locale, d }: { locale: Locale; d: Dict }) {
         <svg viewBox="0 0 24 24" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9l6 6 6-6" /></svg>
       </button>
       {open && (
-        <div className="absolute right-0 top-full z-30 mt-2 w-32 overflow-hidden rounded-lg border border-white/10 bg-navy-deep py-1 text-xs shadow-xl">
+        <div className="absolute right-0 top-full z-50 mt-2 w-32 overflow-hidden rounded-lg border border-white/10 bg-navy-deep py-1 text-xs shadow-xl">
           <Link href="/tr" onClick={() => setOpen(false)}
             className={`block px-3 py-2 hover:bg-white/10 ${locale === 'tr' ? 'text-brass' : 'text-white/80'}`}>
             {d.lang_tr}
