@@ -12,7 +12,7 @@ export function Header({ locale, d, currency, path }: { locale: Locale; d: Dict;
     <>
       {/* Row 1: utility bar — contact, search, secondary links, currency/language */}
       <div className="hidden bg-navy-deep text-xs text-white/80 md:block">
-        <div className="mx-auto flex max-w-6xl items-center gap-6 px-4 py-2">
+        <div className="mx-auto flex max-w-6xl items-center gap-6 px-4 py-3.5">
           <div className="flex shrink-0 items-center gap-5">
             <a href="tel:+905000000000" className="flex items-center gap-1.5 hover:text-white">
               <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M4 5c0 8.3 6.7 15 15 15l2-3.5-5-2-1.5 1.7A11.4 11.4 0 0 1 8.8 9.7L10.5 8.2 8.5 3.2 5 5z" /></svg>
