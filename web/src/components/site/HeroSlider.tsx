@@ -35,7 +35,7 @@ export function HeroSlider({ slides, showCaption = true }: { slides: { tag: stri
 
       {showCaption && (
         <>
-          <div className="absolute bottom-20 left-4 md:bottom-24 md:left-10">
+          <div className="absolute bottom-20 left-4 hidden md:block md:bottom-24 md:left-10">
             <div className="mb-2 h-px w-10 bg-brass-soft/70" />
             <div className="text-xs font-semibold uppercase tracking-[0.25em] text-brass-soft">
               {slides[index]?.tag}
@@ -43,7 +43,7 @@ export function HeroSlider({ slides, showCaption = true }: { slides: { tag: stri
             <div className="font-display mt-1 text-lg italic text-white/90">{slides[index]?.caption}</div>
           </div>
 
-          <div className="absolute bottom-[5.25rem] right-4 flex gap-2 md:bottom-24 md:right-10">
+          <div className="absolute bottom-[5.25rem] right-4 hidden gap-2 md:flex md:bottom-24 md:right-10">
             {SOURCES.map((_, i) => (
               <button
                 key={i}
