@@ -42,14 +42,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
   return (
     <div className="flex min-h-screen">
-      <aside className="w-56 shrink-0 bg-pine-900 text-white">
+      <aside className="flex w-56 shrink-0 flex-col bg-pine-900 text-white">
         <div className="border-b border-pine-700 px-5 py-5">
-          <div className="flex items-center gap-2.5">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/brand/logo-mark-white.png" alt="" className="h-7 w-auto" />
-            <div className="text-lg font-semibold tracking-tight">Villa Yönetim</div>
-          </div>
-          <div className="mt-1 text-xs text-teal-100/60">{profile.full_name}</div>
+          <div className="text-lg font-semibold tracking-tight">Villa Yönetim</div>
+          <div className="mt-0.5 text-xs text-teal-100/60">{profile.full_name}</div>
         </div>
         <nav className="space-y-1 p-3">
           {NAV.map((item) => (
@@ -74,6 +70,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             Çıkış yap
           </button>
         </form>
+        <div className="mt-auto flex justify-center border-t border-pine-700 py-6">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/brand/logo-mark-white.png" alt="Villamega" className="h-8 w-auto opacity-70" />
+        </div>
       </aside>
       <main className="flex-1 p-8">{children}</main>
     </div>
