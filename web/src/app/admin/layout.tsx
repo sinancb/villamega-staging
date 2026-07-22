@@ -6,6 +6,9 @@ const NAV = [
   { href: '/admin/talepler', label: 'Rezervasyonlar' },
   { href: '/admin/villa-talepleri', label: 'Villa Talepleri' },
   { href: '/admin/villalar', label: 'Villalar' },
+  { href: '/admin/kategoriler', label: 'Kategoriler' },
+  { href: '/admin/crm', label: 'CRM (Müşteri İlişkileri)' },
+  { href: '/admin/muhasebe', label: 'Muhasebe' },
   { href: '/admin/cakismalar', label: 'Çakışmalar' }
 ];
 
@@ -41,8 +44,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     <div className="flex min-h-screen">
       <aside className="w-56 shrink-0 bg-pine-900 text-white">
         <div className="border-b border-pine-700 px-5 py-5">
-          <div className="text-lg font-semibold tracking-tight">Villa Yönetim</div>
-          <div className="mt-0.5 text-xs text-teal-100/60">{profile.full_name}</div>
+          <div className="flex items-center gap-2.5">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/brand/logo-mark-white.png" alt="" className="h-7 w-auto" />
+            <div className="text-lg font-semibold tracking-tight">Villa Yönetim</div>
+          </div>
+          <div className="mt-1 text-xs text-teal-100/60">{profile.full_name}</div>
         </div>
         <nav className="space-y-1 p-3">
           {NAV.map((item) => (
