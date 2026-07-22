@@ -1,11 +1,12 @@
 import Link from 'next/link';
 import type { Locale, Dict } from '@/lib/i18n';
+import { MobileNav } from '@/components/site/MobileNav';
 
 export function Header({ locale, d, path }: { locale: Locale; d: Dict; path?: string }) {
   const other = locale === 'tr' ? 'en' : 'tr';
   return (
     <header className="sticky top-0 z-40 border-b border-navy/10 bg-white/90 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
+      <div className="relative mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
         <Link href={`/${locale}`} className="flex items-center gap-2">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/brand/logo-mark-navy.png" alt="" className="h-8 w-auto" />
@@ -14,9 +15,6 @@ export function Header({ locale, d, path }: { locale: Locale; d: Dict; path?: st
           </span>
         </Link>
         <nav className="hidden items-center gap-8 text-xs font-semibold uppercase tracking-[0.14em] text-navy/75 md:flex">
-          <Link className="hover:text-navy" href={`/${locale}/villalar`}>{d.nav_villas}</Link>
-          <Link className="hover:text-navy" href={`/${locale}/sayfa/hakkimizda`}>{d.nav_about}</Link>
-          <Link className="hover:text-navy" href={`/${locale}/sayfa/kiralama-sartlari`}>{d.nav_terms}</Link>
           <Link className="hover:text-navy" href={`/${locale}/villanizi-kiralayin`}>{d.nav_owner}</Link>
         </nav>
         <div className="flex items-center gap-3">
@@ -28,6 +26,7 @@ export function Header({ locale, d, path }: { locale: Locale; d: Dict; path?: st
             className="rounded-full border border-brass px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-navy transition-colors hover:bg-brass">
             {d.nav_contact}
           </a>
+          <MobileNav locale={locale} d={d} />
         </div>
       </div>
     </header>

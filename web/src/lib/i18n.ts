@@ -5,7 +5,7 @@ export const DEFAULT_LOCALE: Locale = 'tr';
 const dict = {
   tr: {
     nav_villas: 'Villalarımız', nav_about: 'Hakkımızda', nav_terms: 'Kiralama Şartları',
-    nav_owner: 'Villanızı Kiralayın',
+    nav_owner: 'Villanızı Kiralayın', nav_menu: 'Menü',
     nav_contact: 'İletişim',
     hero_eyebrow: 'Fethiye · Kaş · Kalkan',
     hero_title: 'Akdeniz\'de Hayalinizdeki Villa',
@@ -76,7 +76,7 @@ const dict = {
   },
   en: {
     nav_villas: 'Our Villas', nav_about: 'About Us', nav_terms: 'Rental Terms',
-    nav_owner: 'List Your Villa',
+    nav_owner: 'List Your Villa', nav_menu: 'Menu',
     nav_contact: 'Contact',
     hero_eyebrow: 'Fethiye · Kaş · Kalkan',
     hero_title: 'Your Dream Villa on the Mediterranean',

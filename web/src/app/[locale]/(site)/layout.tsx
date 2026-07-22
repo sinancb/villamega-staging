@@ -10,7 +10,7 @@ export default function SiteLayout({ children, params }: {
     <div className="font-sans">
       <Header locale={params.locale} d={d} />
       <main>{children}</main>
-      <Footer d={d} />
+      <Footer locale={params.locale} d={d} />
     </div>
   );
 }
