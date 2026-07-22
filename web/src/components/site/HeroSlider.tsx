@@ -31,7 +31,7 @@ export function HeroSlider({ slides, showCaption = true }: { slides: { tag: stri
           />
         </div>
       ))}
-      <div className="absolute inset-0 bg-gradient-to-b from-navy-deep/40 via-navy-deep/10 to-navy-deep/80" />
+      <div className="absolute inset-0 bg-gradient-to-b from-navy-deep/55 via-navy-deep/10 to-navy-deep/55" />
 
       {showCaption && (
         <>

@@ -33,7 +33,7 @@ export default async function HomePage({ params }: { params: { locale: Locale } 
       {/* Hero: panoramic Ölüdeniz slider, omega arch woven through as a watermark */}
       <section className="relative isolate flex min-h-[640px] items-center overflow-hidden bg-navy-deep text-white md:min-h-[760px]">
         <HeroSlider slides={d.hero_slides} />
-        <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center px-4 pb-16 pt-20 text-center">
+        <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center px-4 pb-16 pt-8 text-center">
           <div className="mb-5 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-brass-soft">
             <span className="h-px w-8 bg-brass-soft/60" />
             {d.hero_eyebrow}

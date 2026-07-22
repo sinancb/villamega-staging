@@ -5,6 +5,7 @@ import { MobileNav } from '@/components/site/MobileNav';
 import { CurrencyDropdown } from '@/components/site/CurrencyDropdown';
 import { LanguageDropdown } from '@/components/site/LanguageDropdown';
 import { VillaSearchBar } from '@/components/site/VillaSearchBar';
+import { StickyHeaderBar } from '@/components/site/StickyHeaderBar';
 
 export function Header({ locale, d, currency, path }: { locale: Locale; d: Dict; currency: CurrencyCode; path?: string }) {
   return (
@@ -34,8 +35,8 @@ export function Header({ locale, d, currency, path }: { locale: Locale; d: Dict;
         </div>
       </div>
 
-      {/* Row 2: logo + login, sticky */}
-      <header className="sticky top-0 z-40 bg-navy">
+      {/* Row 2: logo + login, sticky — transparent over hero pages, solid elsewhere/on scroll */}
+      <StickyHeaderBar locale={locale}>
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
           <Link href={`/${locale}`} className="flex items-center gap-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -52,7 +53,7 @@ export function Header({ locale, d, currency, path }: { locale: Locale; d: Dict;
 
           <MobileNav locale={locale} d={d} currency={currency} />
         </div>
-      </header>
+      </StickyHeaderBar>
     </>
   );
 }
