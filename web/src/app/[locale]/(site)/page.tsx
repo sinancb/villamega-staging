@@ -33,9 +33,9 @@ export default async function HomePage({ params }: { params: { locale: Locale } 
       {/* Hero: panoramic Ölüdeniz slider, omega arch woven through as a watermark.
           Negative top margin pulls it up underneath the sticky logo row (which is
           transparent on this page) so the image shows through instead of blank page bg. */}
-      <section className="relative isolate -mt-12 flex min-h-[560px] items-center overflow-hidden bg-navy-deep text-white md:-mt-16 md:min-h-[680px]">
+      <section className="relative isolate -mt-12 flex min-h-[420px] items-center overflow-hidden bg-navy-deep text-white md:-mt-16 md:min-h-[680px]">
         <HeroSlider slides={d.hero_slides} />
-        <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center px-4 pb-16 pt-8 text-center">
+        <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center px-4 pb-8 pt-8 text-center md:pb-16">
           <div className="mb-5 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-brass-soft">
             <span className="h-px w-8 bg-brass-soft/60" />
             {d.hero_eyebrow}
@@ -45,11 +45,16 @@ export default async function HomePage({ params }: { params: { locale: Locale } 
             {d.hero_title}
           </h1>
           <p className="mt-5 max-w-xl text-base text-white/85 [text-shadow:0_1px_10px_rgba(11,21,38,0.4)]">{d.hero_sub}</p>
-          <div className="mt-8 w-full px-4">
+          <div className="mt-8 hidden w-full px-4 md:block">
             <HeroSearchWidget locale={params.locale} d={d} categories={categories} />
           </div>
         </div>
       </section>
+
+      {/* Mobile: search trigger floats right on the hero/next-section seam, like a raised card */}
+      <div className="relative z-20 -mt-7 px-4 md:hidden">
+        <HeroSearchWidget locale={params.locale} d={d} categories={categories} />
+      </div>
 
       <VillaTypes locale={params.locale} title={d.villa_types_title} categories={categories} />
 

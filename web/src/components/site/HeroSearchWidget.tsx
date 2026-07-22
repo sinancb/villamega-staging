@@ -102,7 +102,7 @@ export function HeroSearchWidget({ locale, d, categories }: { locale: Locale; d:
 
       {/* Mobile: slim trigger bar, opens a full popup */}
       <button type="button" onClick={() => setMobileOpen(true)}
-        className="flex w-full items-center gap-2.5 rounded-full border border-navy/10 bg-white px-4 py-3 text-left shadow-lg md:hidden">
+        className="flex w-full items-center gap-2.5 rounded-full border border-navy/5 bg-white px-4 py-3.5 text-left shadow-[0_18px_36px_-12px_rgba(11,21,38,0.35)] md:hidden">
         <span className="text-navy/50">{searchIcon}</span>
         <span className="text-sm text-navy/60">{d.search_pick_dates}</span>
       </button>
