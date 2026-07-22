@@ -4,9 +4,11 @@ import type { Dict, Locale } from '@/lib/i18n';
 import { REGION_LABEL } from '@/lib/i18n';
 import { placeholderFor } from '@/lib/site-queries';
 import { SafeImage } from '@/components/site/SafeImage';
+import { tryToEur, fmtEur, type CurrencyCode } from '@/lib/currency';
 
-export function VillaCard({ villa, locale, d, photoUrl, photoIndex = 0, todayPrice, ribbon }: {
-  villa: any; locale: Locale; d: Dict; photoUrl: string; photoIndex?: number; todayPrice: number | null; ribbon?: string;
+export function VillaCard({ villa, locale, d, photoUrl, photoIndex = 0, todayPrice, ribbon, currency = 'TRY', eurRate = 1 }: {
+  villa: any; locale: Locale; d: Dict; photoUrl: string; photoIndex?: number; todayPrice: number | null;
+  ribbon?: string; currency?: CurrencyCode; eurRate?: number;
 }) {
   const title = villa.villa_translations?.find((t: any) => t.locale === locale)?.title
     ?? villa.villa_translations?.find((t: any) => t.locale === 'tr')?.title
@@ -39,7 +41,14 @@ export function VillaCard({ villa, locale, d, photoUrl, photoIndex = 0, todayPri
             {todayPrice !== null && (
               <>
                 <div className="text-[11px] uppercase tracking-wide text-navy/50">{d.from_price}</div>
-                <div className="text-lg font-bold text-navy">{tl(todayPrice)}</div>
+                <div className="text-lg font-bold text-navy">
+                  {tl(todayPrice)}
+                  {currency === 'EUR' && (
+                    <span className="ml-1 text-sm font-normal text-navy/50">
+                      · ≈ {fmtEur(tryToEur(todayPrice, eurRate))}
+                    </span>
+                  )}
+                </div>
               </>
             )}
           </div>

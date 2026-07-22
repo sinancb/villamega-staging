@@ -11,17 +11,21 @@ import { VillaTypes } from '@/components/site/VillaTypes';
 import { BlogTeaser } from '@/components/site/BlogTeaser';
 import { VillaFinder } from '@/components/site/VillaFinder';
 import { ShortStayAvailability } from '@/components/site/ShortStayAvailability';
+import { getEurRate } from '@/lib/currency';
+import { getCurrencyFromCookies } from '@/lib/currency-server';
 
 export default async function HomePage({ params }: { params: { locale: Locale } }) {
   const d = t(params.locale);
   const today = new Date();
   const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+  const currency = getCurrencyFromCookies(params.locale);
 
-  const [villas, categories, lastMinuteVillas, shortStayMonths] = await Promise.all([
+  const [villas, categories, lastMinuteVillas, shortStayMonths, eurRate] = await Promise.all([
     fetchActiveVillas(),
     fetchCategories(params.locale),
     fetchActiveVillas({ checkin: iso(today), checkout: iso(tomorrow) }),
-    fetchShortStayAvailability()
+    fetchShortStayAvailability(),
+    currency === 'EUR' ? getEurRate() : Promise.resolve(1)
   ]);
 
   return (
@@ -78,7 +82,8 @@ export default async function HomePage({ params }: { params: { locale: Locale } 
         <div className="grid gap-6 md:grid-cols-3">
           {villas.slice(0, 3).map((v: any, i: number) => (
             <VillaCard key={v.id} villa={v} locale={params.locale} d={d}
-              photoUrl={coverUrl(v, i)} photoIndex={i} todayPrice={todayNightly(v)} />
+              photoUrl={coverUrl(v, i)} photoIndex={i} todayPrice={todayNightly(v)}
+              currency={currency} eurRate={eurRate} />
           ))}
         </div>
       </section>
@@ -93,7 +98,8 @@ export default async function HomePage({ params }: { params: { locale: Locale } 
             {lastMinuteVillas.slice(0, 3).map((v: any, i: number) => (
               <VillaCard key={v.id} villa={v} locale={params.locale} d={d}
                 photoUrl={coverUrl(v, i)} photoIndex={i} todayPrice={todayNightly(v)}
-                ribbon={params.locale === 'tr' ? 'Bugün Müsait' : 'Available Today'} />
+                ribbon={params.locale === 'tr' ? 'Bugün Müsait' : 'Available Today'}
+                currency={currency} eurRate={eurRate} />
             ))}
           </div>
         ) : (

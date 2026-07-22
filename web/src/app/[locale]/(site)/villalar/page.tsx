@@ -3,6 +3,8 @@ export const revalidate = 300;
 import { t, REGION_LABEL, type Locale } from '@/lib/i18n';
 import { fetchActiveVillas, fetchCategories, coverUrl, todayNightly } from '@/lib/site-queries';
 import { VillaCard } from '@/components/site/VillaCard';
+import { getEurRate } from '@/lib/currency';
+import { getCurrencyFromCookies } from '@/lib/currency-server';
 import Link from 'next/link';
 
 export default async function VillasPage({ params, searchParams }: {
@@ -16,10 +18,12 @@ export default async function VillasPage({ params, searchParams }: {
   const categorySlug = searchParams.tip || undefined;
   const checkin = searchParams.giris || undefined;
   const checkout = searchParams.cikis || undefined;
+  const currency = getCurrencyFromCookies(params.locale);
 
-  const [villas, categories] = await Promise.all([
+  const [villas, categories, eurRate] = await Promise.all([
     fetchActiveVillas({ region, categorySlug, minCapacity, checkin, checkout }),
-    fetchCategories(params.locale)
+    fetchCategories(params.locale),
+    currency === 'EUR' ? getEurRate() : Promise.resolve(1)
   ]);
   const activeCategory = categories.find((c) => c.slug === categorySlug);
 
@@ -72,7 +76,8 @@ export default async function VillasPage({ params, searchParams }: {
       <div className="grid gap-6 md:grid-cols-3">
         {villas.map((v: any, i: number) => (
           <VillaCard key={v.id} villa={v} locale={params.locale} d={d}
-            photoUrl={coverUrl(v, i)} photoIndex={i} todayPrice={todayNightly(v)} />
+            photoUrl={coverUrl(v, i)} photoIndex={i} todayPrice={todayNightly(v)}
+            currency={currency} eurRate={eurRate} />
         ))}
         {villas.length === 0 && (
           <p className="col-span-3 py-16 text-center text-navy/60">—</p>

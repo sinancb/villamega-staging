@@ -6,6 +6,8 @@ import { coverUrl } from '@/lib/site-queries';
 import { BookingWidget } from '@/components/site/BookingWidget';
 import { PhotoGallery } from '@/components/site/PhotoGallery';
 import { LicenseBadge } from '@/components/site/LicenseBadge';
+import { getEurRate } from '@/lib/currency';
+import { getCurrencyFromCookies } from '@/lib/currency-server';
 import type { Metadata } from 'next';
 
 async function getVilla(slug: string) {
@@ -38,6 +40,8 @@ export default async function VillaDetailPage({ params }: {
   const villa = await getVilla(params.slug);
   if (!villa) notFound();
   const d = t(params.locale);
+  const currency = getCurrencyFromCookies(params.locale);
+  const eurRate = currency === 'EUR' ? await getEurRate() : 1;
 
   const trn = villa.villa_translations?.find((x: any) => x.locale === params.locale)
     ?? villa.villa_translations?.find((x: any) => x.locale === 'tr');
@@ -122,7 +126,8 @@ export default async function VillaDetailPage({ params }: {
               authorityLabel={d.license_authority} noLabel={d.license_no} />
           )}
           <div className="mt-4">
-            <BookingWidget villaId={villa.id} locale={params.locale} depositAmount={villa.deposit_amount} />
+            <BookingWidget villaId={villa.id} locale={params.locale} depositAmount={villa.deposit_amount}
+              currency={currency} eurRate={eurRate} />
           </div>
         </aside>
       </div>

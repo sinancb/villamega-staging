@@ -1,8 +1,10 @@
 import Link from 'next/link';
 import type { Locale, Dict } from '@/lib/i18n';
+import type { CurrencyCode } from '@/lib/currency';
 import { MobileNav } from '@/components/site/MobileNav';
+import { CurrencyToggle } from '@/components/site/CurrencyToggle';
 
-export function Header({ locale, d, path }: { locale: Locale; d: Dict; path?: string }) {
+export function Header({ locale, d, currency, path }: { locale: Locale; d: Dict; currency: CurrencyCode; path?: string }) {
   const other = locale === 'tr' ? 'en' : 'tr';
   return (
     <header className="sticky top-0 z-40 border-b border-navy/10 bg-white/90 backdrop-blur">
@@ -18,6 +20,7 @@ export function Header({ locale, d, path }: { locale: Locale; d: Dict; path?: st
           <Link className="hover:text-navy" href={`/${locale}/villanizi-kiralayin`}>{d.nav_owner}</Link>
         </nav>
         <div className="flex items-center gap-3">
+          <CurrencyToggle currency={currency} />
           <Link href={`/${other}`}
             className="rounded-full border border-navy/20 px-3 py-1 text-xs font-semibold text-navy hover:bg-navy hover:text-white">
             {other.toUpperCase()}

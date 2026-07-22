@@ -4,6 +4,7 @@ import { supabaseBrowser } from '@/lib/supabase/client';
 import { t, type Locale } from '@/lib/i18n';
 import { tl } from '@/lib/format';
 import { iso, MONTH_TR, MONTH_EN, DOW_TR, DOW_EN, monthGridDays } from '@/lib/calendar';
+import { tryToEur, fmtEur, type CurrencyCode } from '@/lib/currency';
 
 type Range = { start_date: string; end_date: string };
 type Quote = {
@@ -12,9 +13,12 @@ type Quote = {
   prepayment?: number; due_at_checkin?: number; damage_deposit?: number;
 };
 
-export function BookingWidget({ villaId, locale, depositAmount }: {
-  villaId: string; locale: Locale; depositAmount: number;
+export function BookingWidget({ villaId, locale, depositAmount, currency = 'TRY', eurRate = 1 }: {
+  villaId: string; locale: Locale; depositAmount: number; currency?: CurrencyCode; eurRate?: number;
 }) {
+  const eur = (n: number) => currency === 'EUR' && (
+    <span className="ml-1 font-normal text-navy/40">· ≈ {fmtEur(tryToEur(n, eurRate))}</span>
+  );
   const d = t(locale);
   const supabase = useMemo(() => supabaseBrowser(), []);
   const today = useMemo(() => { const n = new Date(); n.setHours(0,0,0,0); return n; }, []);
@@ -163,30 +167,31 @@ export function BookingWidget({ villaId, locale, depositAmount }: {
         <dl className="mt-4 space-y-2 border-t border-navy/10 pt-4 text-sm">
           <div className="flex justify-between">
             <dt className="text-navy/70">{d.accommodation} ({quote.nights} {d.nights_suffix.toLowerCase()})</dt>
-            <dd className="font-semibold text-navy">{tl(quote.accommodation_total!)}</dd>
+            <dd className="font-semibold text-navy">{tl(quote.accommodation_total!)}{eur(quote.accommodation_total!)}</dd>
           </div>
           <div className="flex justify-between">
             <dt className="text-navy/70">{d.cleaning}</dt>
-            <dd className="font-semibold text-navy">{tl(quote.cleaning_fee!)}</dd>
+            <dd className="font-semibold text-navy">{tl(quote.cleaning_fee!)}{eur(quote.cleaning_fee!)}</dd>
           </div>
           <div className="pt-1 text-[11px] font-bold uppercase tracking-wide text-navy/50">{d.summary}</div>
           <div className="flex justify-between">
             <dt className="text-navy/70">{d.prepayment}</dt>
-            <dd className="text-navy">{tl(quote.prepayment!)}</dd>
+            <dd className="text-navy">{tl(quote.prepayment!)}{eur(quote.prepayment!)}</dd>
           </div>
           <div className="flex justify-between">
             <dt className="text-navy/70">{d.due_checkin}</dt>
-            <dd className="text-navy">{tl(quote.due_at_checkin!)}</dd>
+            <dd className="text-navy">{tl(quote.due_at_checkin!)}{eur(quote.due_at_checkin!)}</dd>
           </div>
           <div className="flex justify-between border-t border-navy/10 pt-2 text-base">
             <dt className="font-bold text-navy">{d.total}</dt>
-            <dd className="font-bold text-navy">{tl(quote.grand_total!)}</dd>
+            <dd className="font-bold text-navy">{tl(quote.grand_total!)}{eur(quote.grand_total!)}</dd>
           </div>
           <div className="flex justify-between pt-2">
             <dt className="text-navy/60">{d.damage_deposit}</dt>
-            <dd className="text-navy/80">{tl(quote.damage_deposit ?? depositAmount)}</dd>
+            <dd className="text-navy/80">{tl(quote.damage_deposit ?? depositAmount)}{eur(quote.damage_deposit ?? depositAmount)}</dd>
           </div>
           <p className="text-xs leading-relaxed text-navy/50">{d.deposit_note}</p>
+          {currency === 'EUR' && <p className="text-xs leading-relaxed text-navy/50">{d.eur_note}</p>}
         </dl>
       )}
 
