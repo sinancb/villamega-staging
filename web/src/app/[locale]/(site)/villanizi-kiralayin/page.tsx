@@ -7,7 +7,7 @@ export default function OwnerLeadPage({ params }: { params: { locale: Locale } }
 
   return (
     <>
-      <section className="relative isolate flex min-h-[300px] items-center overflow-hidden bg-navy-deep text-white md:min-h-[360px]">
+      <section className="relative isolate -mt-16 flex min-h-[300px] items-center overflow-hidden bg-navy-deep text-white md:min-h-[360px]">
         <HeroSlider slides={d.hero_slides} showCaption={false} />
         <div className="relative z-10 mx-auto w-full max-w-4xl px-4 pb-16">
           <h1 className="font-display max-w-2xl text-4xl font-bold leading-tight [text-shadow:0_2px_18px_rgba(11,21,38,0.45)] md:text-5xl">
