@@ -33,7 +33,7 @@ export default async function HomePage({ params }: { params: { locale: Locale } 
       {/* Hero: panoramic Ölüdeniz slider, omega arch woven through as a watermark.
           Negative top margin pulls it up underneath the sticky logo row (which is
           transparent on this page) so the image shows through instead of blank page bg. */}
-      <section className="relative isolate -mt-12 flex min-h-[420px] items-center overflow-hidden bg-navy-deep text-white md:-mt-16 md:min-h-[680px]">
+      <section className="relative isolate -mt-14 flex min-h-[344px] items-center overflow-hidden bg-navy-deep text-white md:-mt-20 md:min-h-[560px]">
         <HeroSlider slides={d.hero_slides} />
         <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center px-4 pb-8 pt-8 text-center md:pb-16">
           <div className="mb-5 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-brass-soft">
