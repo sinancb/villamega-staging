@@ -18,12 +18,12 @@ export function VillaTypes({ locale, title, categories }: { locale: Locale; titl
   if (categories.length === 0) return null;
 
   return (
-    <section className="mx-auto max-w-6xl px-4 py-14">
+    <section className="mx-auto max-w-6xl px-4 py-6 md:py-14">
       <h2 className="font-display text-3xl font-semibold text-navy">{title}</h2>
       <div className="mb-6 mt-3 h-px w-14 bg-brass" />
 
       {/* Mobile: story-style single row of circular icons */}
-      <div className="-mx-4 flex snap-x gap-5 overflow-x-auto pl-8 pr-4 pb-1 md:hidden">
+      <div className="-mr-4 flex snap-x gap-5 overflow-x-auto pb-1 pl-4 pr-4 md:hidden">
         {categories.map((cat) => {
           const Icon = categoryIcon(cat.icon);
           return (
