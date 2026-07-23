@@ -23,7 +23,7 @@ export function VillaTypes({ locale, title, categories }: { locale: Locale; titl
       <div className="mb-6 mt-3 h-px w-14 bg-brass" />
 
       {/* Mobile: story-style single row of circular icons */}
-      <div className="-mx-4 flex snap-x gap-5 overflow-x-auto px-4 pb-1 md:hidden">
+      <div className="-mx-4 flex snap-x gap-5 overflow-x-auto pl-6 pr-4 pb-1 md:hidden">
         {categories.map((cat) => {
           const Icon = categoryIcon(cat.icon);
           return (

@@ -10,7 +10,7 @@ export function Header({ locale, d, currency, path, isLoggedIn }: { locale: Loca
   return (
     <>
       {/* Row 1: utility bar — left cluster (contact/owner/contact-us), middle search (desktop), right cluster (currency/language) */}
-      <div className="border-b border-white/[0.06] bg-navy-deep text-sm text-white/80">
+      <div className="border-b border-white/[0.06] bg-navy-deep text-base text-white/80 md:text-sm">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 pb-4 pt-3 md:gap-6 md:pb-5 md:pt-4">
           <div className="flex items-center gap-4 overflow-x-auto md:gap-5">
             <div className="hidden shrink-0 items-center gap-5 md:flex">
