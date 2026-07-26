@@ -1,7 +1,7 @@
 import Link from 'next/link';
 export const revalidate = 300;
 
-import { t, REGION_LABEL, type Locale } from '@/lib/i18n';
+import { t, type Locale } from '@/lib/i18n';
 import { fetchActiveVillas, fetchCategories, fetchShortStayAvailability, coverUrl, todayNightly } from '@/lib/site-queries';
 import { iso } from '@/lib/calendar';
 import { VillaCard } from '@/components/site/VillaCard';
@@ -57,25 +57,6 @@ export default async function HomePage({ params }: { params: { locale: Locale } 
       </div>
 
       <VillaTypes locale={params.locale} title={d.villa_types_title} categories={categories} />
-
-      {/* Regions */}
-      <section className="mx-auto max-w-6xl px-4 py-14">
-        <h2 className="font-display text-3xl font-semibold text-navy">{d.regions_title}</h2>
-        <div className="mb-6 mt-3 h-px w-14 bg-brass" />
-        <div className="grid gap-4 md:grid-cols-3">
-          {(['fethiye', 'kas', 'kalkan'] as const).map((r, i) => (
-            <Link key={r} href={`/${params.locale}/villalar?bolge=${r}`}
-              className="group relative overflow-hidden rounded-2xl">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={`/placeholders/villa-${i}.svg`} alt={REGION_LABEL[params.locale][r]}
-                className="aspect-[3/2] w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-              <span className="absolute bottom-4 left-4 font-display text-2xl font-semibold text-white drop-shadow">
-                {REGION_LABEL[params.locale][r]}
-              </span>
-            </Link>
-          ))}
-        </div>
-      </section>
 
       {/* Featured villas */}
       <section className="mx-auto max-w-6xl px-4 pb-8">

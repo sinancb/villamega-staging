@@ -48,11 +48,11 @@ export function VillaTypes({ locale, title, categories }: { locale: Locale; titl
             const Icon = categoryIcon(cat.icon);
             return (
               <Link key={cat.slug} href={`/${locale}/villalar?tip=${cat.slug}`}
-                className="group flex snap-start items-center gap-4 rounded-2xl border border-navy/10 bg-white px-5 py-4 transition-colors hover:border-brass/60">
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-navy-mist">
-                  <Icon className="h-6 w-6 text-navy" />
+                className="group flex snap-start items-center gap-3 rounded-2xl border border-navy/10 bg-white px-5 py-3.5 transition-colors hover:border-brass/60">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-navy-mist">
+                  <Icon className="h-5 w-5 text-navy" />
                 </span>
-                <span className="font-display text-base font-semibold leading-snug text-navy">{cat.label}</span>
+                <span className="font-display text-lg font-semibold leading-snug text-navy">{cat.label}</span>
               </Link>
             );
           })}

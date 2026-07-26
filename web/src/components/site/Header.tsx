@@ -14,9 +14,9 @@ export function Header({ locale, d, currency, path, isLoggedIn }: { locale: Loca
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 pb-4 pt-3 md:gap-6 md:pb-5 md:pt-4">
           <div className="flex items-center gap-4 overflow-x-auto md:gap-5">
             <div className="hidden shrink-0 items-center gap-5 md:flex">
-              <a href="tel:+905000000000" className="flex items-center gap-1.5 hover:text-white">
+              <a href="tel:+905421124801" className="flex items-center gap-1.5 hover:text-white">
                 <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M4 5c0 8.3 6.7 15 15 15l2-3.5-5-2-1.5 1.7A11.4 11.4 0 0 1 8.8 9.7L10.5 8.2 8.5 3.2 5 5z" /></svg>
-                +90 500 000 00 00
+                +90 542 112 48 01
               </a>
               <a href="mailto:info@villamega.com" className="flex items-center gap-1.5 hover:text-white">
                 <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m4 6.5 8 6 8-6" /></svg>
@@ -24,7 +24,7 @@ export function Header({ locale, d, currency, path, isLoggedIn }: { locale: Loca
               </a>
             </div>
             <Link className="shrink-0 hover:text-white" href={`/${locale}/villanizi-kiralayin`}>{d.nav_owner}</Link>
-            <a className="shrink-0 hover:text-white" href="https://wa.me/905000000000" target="_blank" rel="noreferrer">{d.nav_contact}</a>
+            <a className="shrink-0 hover:text-white" href="https://wa.me/905421124801" target="_blank" rel="noreferrer">{d.nav_contact}</a>
           </div>
 
           <div className="hidden md:block md:max-w-xs md:flex-1">
