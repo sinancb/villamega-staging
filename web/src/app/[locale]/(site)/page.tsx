@@ -32,7 +32,7 @@ export default async function HomePage({ params }: { params: { locale: Locale } 
       {/* Hero: panoramic Ölüdeniz slider, omega arch woven through as a watermark.
           Negative top margin pulls it up underneath the sticky logo row (which is
           transparent on this page) so the image shows through instead of blank page bg. */}
-      <section className="relative isolate -mt-14 flex min-h-[300px] items-center overflow-hidden bg-navy-deep text-white md:-mt-20 md:min-h-[460px]">
+      <section className="relative isolate -mt-14 flex min-h-[260px] items-center overflow-hidden bg-navy-deep text-white md:-mt-20 md:min-h-[400px]">
         <div className="absolute inset-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/hero/oludeniz-1.jpg" alt="" className="h-full w-full scale-105 object-cover blur-[2px]" />
@@ -48,14 +48,11 @@ export default async function HomePage({ params }: { params: { locale: Locale } 
             {d.hero_title}
           </h1>
           <p className="mt-5 max-w-xl text-base text-white/85 [text-shadow:0_1px_10px_rgba(11,21,38,0.4)]">{d.hero_sub}</p>
-          <div className="mt-8 hidden w-full px-4 md:block">
-            <HeroSearchWidget locale={params.locale} d={d} categories={categories} />
-          </div>
         </div>
       </section>
 
-      {/* Mobile: search trigger floats right on the hero/next-section seam, like a raised card */}
-      <div className="relative z-20 -mt-7 px-4 md:hidden">
+      {/* Search widget floats on the hero/next-section seam, like a raised card, on every breakpoint */}
+      <div className="relative z-20 -mt-7 px-4 md:-mt-16">
         <HeroSearchWidget locale={params.locale} d={d} categories={categories} />
       </div>
 
