@@ -35,7 +35,7 @@ export default async function HomePage({ params }: { params: { locale: Locale } 
       <section className="relative isolate -mt-14 flex min-h-[300px] items-center overflow-hidden bg-navy-deep text-white md:-mt-20 md:min-h-[460px]">
         <div className="absolute inset-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/hero/oludeniz-1.jpg" alt="" className="h-full w-full object-cover" />
+          <img src="/hero/oludeniz-1.jpg" alt="" className="h-full w-full scale-105 object-cover blur-[2px]" />
           <div className="absolute inset-0 bg-gradient-to-b from-navy-deep/55 via-navy-deep/10 to-navy-deep/55" />
         </div>
         <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center px-4 pb-8 pt-20 text-center md:pb-16 md:pt-8">
