@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 const SLIDE_MS = 6500;
-const SOURCES = ['/hero/oludeniz-1.svg', '/hero/oludeniz-2.svg', '/hero/oludeniz-3.svg'];
+const SOURCES = ['/hero/oludeniz-1.jpg', '/hero/oludeniz-2.jpg', '/hero/oludeniz-3.jpg'];
 
 export function HeroSlider({ slides, showCaption = true }: { slides: { tag: string; caption: string }[]; showCaption?: boolean }) {
   const [index, setIndex] = useState(0);

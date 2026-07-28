@@ -109,7 +109,7 @@ export function CustomerAuthPanel({ locale, d }: { locale: Locale; d: Dict }) {
 
       <div className="relative hidden overflow-hidden md:block">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/hero/oludeniz-1.svg" alt="" className="h-full w-full object-cover" />
+        <img src="/hero/oludeniz-1.jpg" alt="" className="h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/70 via-navy-deep/10 to-transparent" />
         <p className="font-display absolute bottom-14 left-10 right-10 text-2xl font-medium leading-snug text-white [text-shadow:0_2px_18px_rgba(11,21,38,0.45)]">
           {d.login_hero_line}
