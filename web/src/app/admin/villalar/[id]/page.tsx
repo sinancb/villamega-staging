@@ -41,7 +41,7 @@ export default async function VillaEditPage({ params }: { params: { id: string }
   const photos = [...(villa.villa_photos ?? [])].sort((a: any, b: any) => a.sort_order - b.sort_order);
   const seasons = [...(villa.price_seasons ?? [])].sort((a: any, b: any) =>
     a.start_date.localeCompare(b.start_date));
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://siteniz.com';
+  const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://siteniz.com').replace(/\/+$/, '');
 
   return (
     <div className="max-w-5xl space-y-6">
