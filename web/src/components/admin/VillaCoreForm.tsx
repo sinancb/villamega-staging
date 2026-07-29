@@ -75,6 +75,11 @@ export function VillaCoreForm({ villa, action, submitLabel }: {
           <input id="tourism_license_no" name="tourism_license_no" defaultValue={villa.tourism_license_no ?? ''}
             className="input" placeholder="07-10403" />
         </div>
+        <div className="col-span-2 md:col-span-3">
+          <label className="label" htmlFor="map_url">Google Maps linki</label>
+          <input id="map_url" name="map_url" type="url" defaultValue={villa.map_url ?? ''}
+            className="input" placeholder="https://maps.app.goo.gl/…" />
+        </div>
       </div>
       {message && (
         <p className={`mt-4 text-sm ${message.ok ? 'text-emerald-700' : 'text-red-600'}`}>{message.text}</p>

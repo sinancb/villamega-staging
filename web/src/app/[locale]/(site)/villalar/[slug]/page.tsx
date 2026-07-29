@@ -6,6 +6,7 @@ import { coverUrl } from '@/lib/site-queries';
 import { BookingWidget } from '@/components/site/BookingWidget';
 import { PhotoGallery } from '@/components/site/PhotoGallery';
 import { LicenseBadge } from '@/components/site/LicenseBadge';
+import { DistanceInfo } from '@/components/site/DistanceInfo';
 import { getEurRate } from '@/lib/currency';
 import { getCurrencyFromCookies } from '@/lib/currency-server';
 import type { Metadata } from 'next';
@@ -15,7 +16,8 @@ async function getVilla(slug: string) {
   const { data } = await supabase
     .from('villas')
     .select(`*, villa_translations(*), villa_photos(*), price_seasons(*),
-             villa_amenities(amenities(icon, amenity_translations(locale, label)))`)
+             villa_amenities(amenities(icon, amenity_translations(locale, label))),
+             villa_distances(km, note, distance_types(icon, sort_order, distance_type_translations(locale, label)))`)
     .eq('slug', slug)
     .eq('status', 'active')
     .single();
@@ -56,6 +58,17 @@ export default async function VillaDetailPage({ params }: {
       label: a.amenity_translations?.find((x: any) => x.locale === params.locale)?.label
         ?? a.amenity_translations?.find((x: any) => x.locale === 'tr')?.label ?? ''
     }));
+
+  const distances = (villa.villa_distances ?? [])
+    .map((vd: any) => ({
+      icon: vd.distance_types?.icon ?? '',
+      label: vd.distance_types?.distance_type_translations?.find((x: any) => x.locale === params.locale)?.label
+        ?? vd.distance_types?.distance_type_translations?.find((x: any) => x.locale === 'tr')?.label ?? '',
+      km: vd.km,
+      note: vd.note,
+      sortOrder: vd.distance_types?.sort_order ?? 0
+    }))
+    .sort((a: any, b: any) => a.sortOrder - b.sortOrder);
 
   const galleryUrls = photos.length
     ? photos.map((p: any) =>
@@ -130,6 +143,11 @@ export default async function VillaDetailPage({ params }: {
               currency={currency} eurRate={eurRate} />
           </div>
         </aside>
+      </div>
+
+      <div className="mt-10">
+        <DistanceInfo title={d.distances_title} items={distances} mapUrl={villa.map_url}
+          mapButtonLabel={d.distances_map_button} kmSuffix={d.distances_km} />
       </div>
     </div>
   );

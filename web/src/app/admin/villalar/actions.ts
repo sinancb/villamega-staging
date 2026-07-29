@@ -15,7 +15,8 @@ function villaFields(formData: FormData) {
     deposit_amount: Number(formData.get('deposit_amount')),
     prepayment_pct: Number(formData.get('prepayment_pct')),
     status: String(formData.get('status')),
-    tourism_license_no: String(formData.get('tourism_license_no') ?? '').trim() || null
+    tourism_license_no: String(formData.get('tourism_license_no') ?? '').trim() || null,
+    map_url: String(formData.get('map_url') ?? '').trim() || null
   };
 }
 
@@ -123,6 +124,31 @@ export async function saveCategories(villaId: string, categoryIds: string[]) {
   if (categoryIds.length > 0) {
     const { error } = await supabase.from('villa_categories')
       .insert(categoryIds.map((category_id) => ({ villa_id: villaId, category_id })));
+    if (error) return { ok: false as const, error: error.message };
+  }
+  revalidatePath(`/admin/villalar/${villaId}`);
+  return { ok: true as const };
+}
+
+export async function saveDistances(
+  villaId: string,
+  entries: { distance_type_id: string; km: string; note: string }[]
+) {
+  const supabase = supabaseServer();
+  const del = await supabase.from('villa_distances').delete().eq('villa_id', villaId);
+  if (del.error) return { ok: false as const, error: del.error.message };
+
+  const rows = entries
+    .filter((e) => e.km.trim() !== '')
+    .map((e) => ({
+      villa_id: villaId,
+      distance_type_id: e.distance_type_id,
+      km: Number(e.km),
+      note: e.note.trim() || null
+    }));
+
+  if (rows.length > 0) {
+    const { error } = await supabase.from('villa_distances').insert(rows);
     if (error) return { ok: false as const, error: error.message };
   }
   revalidatePath(`/admin/villalar/${villaId}`);

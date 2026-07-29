@@ -8,6 +8,7 @@ import { SeasonEditor } from '@/components/admin/SeasonEditor';
 import { PhotoManager } from '@/components/admin/PhotoManager';
 import { FeedManager } from '@/components/admin/FeedManager';
 import { CategoryPicker } from '@/components/admin/CategoryPicker';
+import { DistanceEditor } from '@/components/admin/DistanceEditor';
 import { Tabs } from '@/components/admin/Tabs';
 
 export default async function VillaEditPage({ params }: { params: { id: string } }) {
@@ -35,6 +36,20 @@ export default async function VillaEditPage({ params }: { params: { id: string }
     label: c.category_translations?.find((t: any) => t.locale === 'tr')?.label ?? c.id
   }));
   const selectedCategoryIds = (villaCategories ?? []).map((vc: any) => vc.category_id as string);
+
+  // Distance types land with migration 013 — same graceful-fail pattern as categories.
+  const { data: allDistanceTypes } = await supabase
+    .from('distance_types')
+    .select('id, sort_order, distance_type_translations(locale, label)')
+    .order('sort_order', { ascending: true });
+  const { data: villaDistances } = await supabase
+    .from('villa_distances')
+    .select('distance_type_id, km, note')
+    .eq('villa_id', params.id);
+  const distanceTypeOptions = (allDistanceTypes ?? []).map((t: any) => ({
+    id: t.id as string,
+    label: t.distance_type_translations?.find((x: any) => x.locale === 'tr')?.label ?? t.id
+  }));
 
   const tr = villa.villa_translations?.find((t: any) => t.locale === 'tr');
   const en = villa.villa_translations?.find((t: any) => t.locale === 'en');
@@ -100,6 +115,21 @@ export default async function VillaEditPage({ params }: { params: { id: string }
           content: (
             <section className="card p-5">
               <SeasonEditor villaId={villa.id} seasons={seasons} />
+            </section>
+          )
+        },
+        {
+          key: 'ulasim',
+          label: 'Ulaşım',
+          content: (
+            <section className="card p-5">
+              {distanceTypeOptions.length > 0 ? (
+                <DistanceEditor villaId={villa.id} allTypes={distanceTypeOptions} existing={villaDistances ?? []} />
+              ) : (
+                <p className="text-sm text-slate-500">
+                  Mesafe tipleri yüklenemedi. Migration 013_villa_distances.sql çalıştırıldı mı?
+                </p>
+              )}
             </section>
           )
         },
