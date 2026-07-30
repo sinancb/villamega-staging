@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import type { Locale, Dict } from '@/lib/i18n';
 import { supabaseBrowser } from '@/lib/supabase/client';
+import { HeroSlider } from '@/components/site/HeroSlider';
 
 export function CustomerAuthPanel({ locale, d }: { locale: Locale; d: Dict }) {
   const router = useRouter();
@@ -108,10 +109,8 @@ export function CustomerAuthPanel({ locale, d }: { locale: Locale; d: Dict }) {
       </div>
 
       <div className="relative hidden overflow-hidden md:block">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/hero/oludeniz-1.jpg" alt="" className="h-full w-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/70 via-navy-deep/10 to-transparent" />
-        <p className="font-display absolute bottom-14 left-10 right-10 text-2xl font-medium leading-snug text-white [text-shadow:0_2px_18px_rgba(11,21,38,0.45)]">
+        <HeroSlider slides={d.hero_slides} showCaption={false} />
+        <p className="font-display absolute bottom-14 left-10 right-10 z-10 text-2xl font-medium leading-snug text-white [text-shadow:0_2px_18px_rgba(11,21,38,0.45)]">
           {d.login_hero_line}
         </p>
       </div>
