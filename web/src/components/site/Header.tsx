@@ -5,6 +5,7 @@ import { CurrencyDropdown } from '@/components/site/CurrencyDropdown';
 import { LanguageDropdown } from '@/components/site/LanguageDropdown';
 import { VillaSearchBar } from '@/components/site/VillaSearchBar';
 import { StickyHeaderBar } from '@/components/site/StickyHeaderBar';
+import { HeaderLogoText } from '@/components/site/HeaderLogoText';
 
 export function Header({ locale, d, currency, path, isLoggedIn }: { locale: Locale; d: Dict; currency: CurrencyCode; path?: string; isLoggedIn?: boolean }) {
   return (
@@ -44,9 +45,7 @@ export function Header({ locale, d, currency, path, isLoggedIn }: { locale: Loca
           <Link href={`/${locale}`} className="flex items-center gap-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/brand/logo-mark-white.png" alt="" className="h-7 w-auto md:h-9" />
-            <span className="font-display text-lg font-semibold tracking-[0.14em] text-white md:text-2xl md:tracking-[0.18em]">
-              VILLAMEGA
-            </span>
+            <HeaderLogoText />
           </Link>
 
           <Link href={`/${locale}/${isLoggedIn ? 'hesabim' : 'giris'}`}
