@@ -6,9 +6,9 @@ import { placeholderFor } from '@/lib/site-queries';
 import { SafeImage } from '@/components/site/SafeImage';
 import { tryToEur, fmtEur, type CurrencyCode } from '@/lib/currency';
 
-export function VillaCard({ villa, locale, d, photoUrl, photoIndex = 0, todayPrice, ribbon, currency = 'TRY', eurRate = 1 }: {
+export function VillaCard({ villa, locale, d, photoUrl, photoIndex = 0, todayPrice, ribbon, currency = 'TRY', eurRate = 1, priority = false }: {
   villa: any; locale: Locale; d: Dict; photoUrl: string; photoIndex?: number; todayPrice: number | null;
-  ribbon?: string; currency?: CurrencyCode; eurRate?: number;
+  ribbon?: string; currency?: CurrencyCode; eurRate?: number; priority?: boolean;
 }) {
   const title = villa.villa_translations?.find((t: any) => t.locale === locale)?.title
     ?? villa.villa_translations?.find((t: any) => t.locale === 'tr')?.title
@@ -16,9 +16,10 @@ export function VillaCard({ villa, locale, d, photoUrl, photoIndex = 0, todayPri
   return (
     <Link href={`/${locale}/villalar/${villa.slug}`}
       className="group block overflow-hidden rounded-2xl border border-navy/10 bg-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-brass/60 hover:shadow-md">
-      <div className="relative overflow-hidden rounded-t-arch">
-        <SafeImage src={photoUrl} fallback={placeholderFor(photoIndex)} alt={title}
-          className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-arch">
+        <SafeImage src={photoUrl} fallback={placeholderFor(photoIndex)} alt={title} priority={priority}
+          sizes="(min-width: 768px) 33vw, 100vw"
+          className="object-cover transition-transform duration-500 group-hover:scale-105" />
         <span className="absolute left-3 top-4 rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-navy">
           {REGION_LABEL[locale][villa.region]}
         </span>

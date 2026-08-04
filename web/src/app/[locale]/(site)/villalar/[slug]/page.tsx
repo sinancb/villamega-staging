@@ -1,4 +1,5 @@
-import { supabaseServer } from '@/lib/supabase/server';
+import { unstable_cache } from 'next/cache';
+import { supabaseAnon } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 import { t, REGION_LABEL, type Locale } from '@/lib/i18n';
 import { tl, trDate } from '@/lib/format';
@@ -11,18 +12,22 @@ import { getEurRate } from '@/lib/currency';
 import { getCurrencyFromCookies } from '@/lib/currency-server';
 import type { Metadata } from 'next';
 
-async function getVilla(slug: string) {
-  const supabase = supabaseServer();
-  const { data } = await supabase
-    .from('villas')
-    .select(`*, villa_translations(*), villa_photos(*), price_seasons(*),
-             villa_amenities(amenities(icon, amenity_translations(locale, label))),
-             villa_distances(km, note, distance_types(icon, sort_order, distance_type_translations(locale, label)))`)
-    .eq('slug', slug)
-    .eq('status', 'active')
-    .single();
-  return data;
-}
+const getVilla = unstable_cache(
+  async (slug: string) => {
+    const supabase = supabaseAnon();
+    const { data } = await supabase
+      .from('villas')
+      .select(`*, villa_translations(*), villa_photos(*), price_seasons(*),
+               villa_amenities(amenities(icon, amenity_translations(locale, label))),
+               villa_distances(km, note, distance_types(icon, sort_order, distance_type_translations(locale, label)))`)
+      .eq('slug', slug)
+      .eq('status', 'active')
+      .single();
+    return data;
+  },
+  ['getVilla'],
+  { revalidate: 300, tags: ['villas'] }
+);
 
 export async function generateMetadata({ params }: {
   params: { locale: Locale; slug: string };

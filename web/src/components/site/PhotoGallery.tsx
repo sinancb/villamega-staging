@@ -46,9 +46,10 @@ export function PhotoGallery({ photos, alt, morePhotosLabel, closeLabel }: {
     <>
       <div className="grid gap-3 md:grid-cols-3">
         <button type="button" onClick={() => setOpenIndex(0)}
-          className="col-span-2 block overflow-hidden rounded-t-arch rounded-b-2xl">
-          <SafeImage src={photos[0]} fallback={placeholderFor(0)} alt={alt}
-            className="aspect-[3/2] w-full object-cover transition-transform duration-300 hover:scale-[1.03]" />
+          className="relative col-span-2 block aspect-[3/2] w-full overflow-hidden rounded-t-arch rounded-b-2xl">
+          <SafeImage src={photos[0]} fallback={placeholderFor(0)} alt={alt} priority
+            sizes="(min-width: 768px) 66vw, 100vw"
+            className="object-cover transition-transform duration-300 hover:scale-[1.03]" />
         </button>
         <div className="grid gap-3">
           {photos.slice(1, 3).map((url, i) => {
@@ -56,9 +57,10 @@ export function PhotoGallery({ photos, alt, morePhotosLabel, closeLabel }: {
             const showOverlay = index === 2 && remaining > 0;
             return (
               <button key={index} type="button" onClick={() => setOpenIndex(index)}
-                className="relative block overflow-hidden rounded-2xl">
+                className="relative block aspect-[3/2] w-full overflow-hidden rounded-2xl">
                 <SafeImage src={url} fallback={placeholderFor(index)} alt=""
-                  className="aspect-[3/2] w-full object-cover transition-transform duration-300 hover:scale-[1.03]" />
+                  sizes="(min-width: 768px) 33vw, 100vw"
+                  className="object-cover transition-transform duration-300 hover:scale-[1.03]" />
                 {showOverlay && (
                   <span className="absolute inset-0 flex items-center justify-center bg-navy-deep/55 text-center font-display text-lg font-semibold text-white">
                     {remaining}+ {morePhotosLabel}
@@ -91,14 +93,10 @@ export function PhotoGallery({ photos, alt, morePhotosLabel, closeLabel }: {
             <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 5l-7 7 7 7" /></svg>
           </button>
 
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={photos[openIndex]}
-            alt={alt}
-            onClick={(e) => e.stopPropagation()}
-            onError={(e) => { e.currentTarget.src = placeholderFor(openIndex); }}
-            className="max-h-[85vh] max-w-[92vw] select-none rounded-lg object-contain md:max-w-[80vw]"
-          />
+          <div className="relative h-[85vh] w-[92vw] md:w-[80vw]" onClick={(e) => e.stopPropagation()}>
+            <SafeImage src={photos[openIndex]} fallback={placeholderFor(openIndex)} alt={alt} priority
+              sizes="92vw" className="select-none rounded-lg object-contain" />
+          </div>
 
           <button type="button" onClick={(e) => { e.stopPropagation(); next(); }} aria-label="Sonraki"
             className="absolute right-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 text-white hover:bg-white/10 md:right-6">

@@ -1,17 +1,23 @@
 'use client';
 
-export function SafeImage({ src, fallback, alt, className }: {
+import { useState } from 'react';
+import Image from 'next/image';
+
+export function SafeImage({ src, fallback, alt, className, sizes = '100vw', priority = false, fill = true }: {
   src: string; fallback: string; alt: string; className?: string;
+  sizes?: string; priority?: boolean; fill?: boolean;
 }) {
+  const [current, setCurrent] = useState(src);
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={src}
+    <Image
+      src={current}
       alt={alt}
+      fill={fill}
+      sizes={sizes}
+      priority={priority}
       className={className}
-      onError={(e) => {
-        const img = e.currentTarget;
-        if (img.src !== fallback) img.src = fallback;
+      onError={() => {
+        if (current !== fallback) setCurrent(fallback);
       }}
     />
   );

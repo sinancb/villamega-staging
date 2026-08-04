@@ -1,4 +1,5 @@
-import { supabaseServer } from '@/lib/supabase/server';
+import { unstable_cache } from 'next/cache';
+import { supabaseAnon } from '@/lib/supabase/server';
 import type { Locale } from '@/lib/i18n';
 import { iso } from '@/lib/calendar';
 
@@ -24,58 +25,70 @@ function filterByName(villas: any[], nameQuery?: string) {
   );
 }
 
-export async function fetchActiveVillas(search: VillaSearch = {}) {
-  const supabase = supabaseServer();
-  const { data, error } = await supabase
-    .rpc('search_villas', {
-      p_region: search.region ?? null,
-      p_category_slug: search.categorySlug ?? null,
-      p_min_capacity: search.minCapacity ?? null,
-      p_checkin: search.checkin ?? null,
-      p_checkout: search.checkout ?? null
-    })
-    .select(VILLA_SELECT);
+export const fetchActiveVillas = unstable_cache(
+  async (search: VillaSearch = {}) => {
+    const supabase = supabaseAnon();
+    const { data, error } = await supabase
+      .rpc('search_villas', {
+        p_region: search.region ?? null,
+        p_category_slug: search.categorySlug ?? null,
+        p_min_capacity: search.minCapacity ?? null,
+        p_checkin: search.checkin ?? null,
+        p_checkout: search.checkout ?? null
+      })
+      .select(VILLA_SELECT);
 
-  // search_villas() lands with migration 008 — until it's applied, fall back
-  // to a plain query (region/capacity only) so the site keeps working.
-  if (error) {
-    let query = supabase.from('villas').select(VILLA_SELECT)
-      .eq('status', 'active').order('created_at', { ascending: true });
-    if (search.region) query = query.eq('region', search.region);
-    if (search.minCapacity) query = query.gte('capacity', search.minCapacity);
-    const fallback = await query;
-    return filterByName(fallback.data ?? [], search.nameQuery);
-  }
-  return filterByName(data ?? [], search.nameQuery);
-}
+    // search_villas() lands with migration 008 — until it's applied, fall back
+    // to a plain query (region/capacity only) so the site keeps working.
+    if (error) {
+      let query = supabase.from('villas').select(VILLA_SELECT)
+        .eq('status', 'active').order('created_at', { ascending: true });
+      if (search.region) query = query.eq('region', search.region);
+      if (search.minCapacity) query = query.gte('capacity', search.minCapacity);
+      const fallback = await query;
+      return filterByName(fallback.data ?? [], search.nameQuery);
+    }
+    return filterByName(data ?? [], search.nameQuery);
+  },
+  ['fetchActiveVillas'],
+  { revalidate: 300, tags: ['villas'] }
+);
 
-export async function fetchCategories(locale: Locale) {
-  const supabase = supabaseServer();
-  const { data } = await supabase
-    .from('categories')
-    .select('id, slug, icon, sort_order, category_translations(locale, label)')
-    .order('sort_order', { ascending: true });
-  return (data ?? []).map((c: any) => ({
-    id: c.id as string,
-    slug: c.slug as string,
-    icon: c.icon as string,
-    label: c.category_translations?.find((t: any) => t.locale === locale)?.label
-      ?? c.category_translations?.find((t: any) => t.locale === 'tr')?.label
-      ?? c.slug
-  }));
-}
+export const fetchCategories = unstable_cache(
+  async (locale: Locale) => {
+    const supabase = supabaseAnon();
+    const { data } = await supabase
+      .from('categories')
+      .select('id, slug, icon, sort_order, category_translations(locale, label)')
+      .order('sort_order', { ascending: true });
+    return (data ?? []).map((c: any) => ({
+      id: c.id as string,
+      slug: c.slug as string,
+      icon: c.icon as string,
+      label: c.category_translations?.find((t: any) => t.locale === locale)?.label
+        ?? c.category_translations?.find((t: any) => t.locale === 'tr')?.label
+        ?? c.slug
+    }));
+  },
+  ['fetchCategories'],
+  { revalidate: 300, tags: ['villas'] }
+);
 
 export type ShortStayMonth = { month: Date; counts: { nights: number; count: number }[] };
+type CachedShortStayMonth = { month: string; counts: { nights: number; count: number }[] };
 
 // For each of the next `monthsAhead` months, how many active villas have an
 // open window of each length in `nightOptions` starting within that month.
 // Real availability, computed from get_unavailable_ranges() per villa —
 // cheap at our current villa count, no new RPC needed.
-export async function fetchShortStayAvailability(
-  monthsAhead = 4,
-  nightOptions = [2, 3, 4, 5, 6]
-): Promise<ShortStayMonth[]> {
-  const supabase = supabaseServer();
+//
+// The cached layer stores `month` as an ISO string (unstable_cache persists
+// via JSON, which would otherwise silently turn Date instances into strings
+// on cache-hit); the public wrapper below restores real Date objects so
+// callers see the same shape as before.
+const _fetchShortStayAvailability = unstable_cache(
+  async (monthsAhead: number = 4, nightOptions: number[] = [2, 3, 4, 5, 6]): Promise<CachedShortStayMonth[]> => {
+  const supabase = supabaseAnon();
   const { data: villas } = await supabase
     .from('villas').select('id, default_min_stay').eq('status', 'active');
 
@@ -96,7 +109,7 @@ export async function fetchShortStayAvailability(
     return { minStay: v.default_min_stay as number, blocked };
   }));
 
-  const months: ShortStayMonth[] = [];
+  const months: CachedShortStayMonth[] = [];
   for (let i = 0; i < monthsAhead; i++) {
     const monthDate = new Date(today.getFullYear(), today.getMonth() + i, 1);
     const daysInMonth = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0).getDate();
@@ -121,8 +134,19 @@ export async function fetchShortStayAvailability(
       return { nights, count };
     });
 
-    months.push({ month: monthDate, counts });
+    months.push({ month: monthDate.toISOString(), counts });
   }
   return months;
+  },
+  ['fetchShortStayAvailability'],
+  { revalidate: 300, tags: ['villas'] }
+);
+
+export async function fetchShortStayAvailability(
+  monthsAhead = 4,
+  nightOptions = [2, 3, 4, 5, 6]
+): Promise<ShortStayMonth[]> {
+  const cached = await _fetchShortStayAvailability(monthsAhead, nightOptions);
+  return cached.map((m) => ({ ...m, month: new Date(m.month) }));
 }
 

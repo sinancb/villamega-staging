@@ -1,5 +1,3 @@
-export const revalidate = 300;
-
 import { t, REGION_LABEL, type Locale } from '@/lib/i18n';
 import { fetchActiveVillas, fetchCategories, coverUrl, todayNightly } from '@/lib/site-queries';
 import { VillaCard } from '@/components/site/VillaCard';

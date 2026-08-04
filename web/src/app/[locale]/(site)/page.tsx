@@ -1,5 +1,5 @@
 import Link from 'next/link';
-export const revalidate = 300;
+import Image from 'next/image';
 
 import { t, type Locale } from '@/lib/i18n';
 import { fetchActiveVillas, fetchCategories, fetchShortStayAvailability, coverUrl, todayNightly } from '@/lib/site-queries';
@@ -34,8 +34,8 @@ export default async function HomePage({ params }: { params: { locale: Locale } 
           transparent on this page) so the image shows through instead of blank page bg. */}
       <section className="relative isolate -mt-14 flex min-h-[260px] items-center overflow-hidden bg-navy-deep text-white md:-mt-20 md:min-h-[400px]">
         <div className="absolute inset-0">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/hero/oludeniz-1.jpg" alt="" className="h-full w-full scale-105 object-cover blur-[2px]" />
+          <Image src="/hero/oludeniz-1.jpg" alt="" fill priority fetchPriority="high" sizes="100vw"
+            className="scale-105 object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-navy-deep/55 via-navy-deep/10 to-navy-deep/55" />
         </div>
         <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center px-4 pb-8 pt-20 text-center md:pb-16 md:pt-8">
@@ -71,7 +71,7 @@ export default async function HomePage({ params }: { params: { locale: Locale } 
           {villas.slice(0, 3).map((v: any, i: number) => (
             <VillaCard key={v.id} villa={v} locale={params.locale} d={d}
               photoUrl={coverUrl(v, i)} photoIndex={i} todayPrice={todayNightly(v)}
-              currency={currency} eurRate={eurRate} />
+              currency={currency} eurRate={eurRate} priority={i === 0} />
           ))}
         </div>
       </section>

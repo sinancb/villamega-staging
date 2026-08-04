@@ -5,6 +5,13 @@ import { NextResponse, type NextRequest } from 'next/server';
 // Role checks (admin/editor) happen in the admin layout — RLS is the real wall;
 // this just keeps anonymous visitors out of the shell.
 export async function middleware(request: NextRequest) {
+  // Public site pages don't need the session-refresh/auth check below — only
+  // /admin does. Skipping it avoids a Supabase Auth round-trip on every
+  // public page view.
+  if (!request.nextUrl.pathname.startsWith('/admin')) {
+    return NextResponse.next();
+  }
+
   let response = NextResponse.next({ request });
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

@@ -1,5 +1,18 @@
+import { createClient } from '@supabase/supabase-js';
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { cookies } from 'next/headers';
+
+// Plain anon-role client with no cookie/session binding. For public reads
+// (villa listings, categories) that never depend on who's logged in — safe
+// to call from inside unstable_cache(), unlike supabaseServer(), which reads
+// cookies() and would break the "no dynamic APIs in a cached function" rule.
+export function supabaseAnon() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    { auth: { persistSession: false } }
+  );
+}
 
 export function supabaseServer() {
   const cookieStore = cookies();
